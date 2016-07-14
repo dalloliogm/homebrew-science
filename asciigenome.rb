@@ -10,7 +10,7 @@ class Asciigenome < Formula
     java.install jar
     bin.write_jar_script java/jar, "ASCIIGenome"
 
-    system "sed -i 's%^prefix.*$%prefix=#{java}%' ASCIIGenome"
+    system "sed -i '' 's%^prefix.*$%prefix=#{java}%' ASCIIGenome"
     bin.install %w[ASCIIGenome]
   end
 
