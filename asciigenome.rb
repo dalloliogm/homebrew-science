@@ -5,14 +5,16 @@ class Asciigenome < Formula
   sha256 "b4acfe7c474b79cf0640c32e9fc8b2637d2ede4ec44a669316357d2aa90fe9a3"
 
   def install
-    system "./configure", "--disable-debug",
-                          "--disable-dependency-tracking",
-                          "--disable-silent-rules",
-                          "--prefix=#{prefix}"
-    system "make", "install"
+    jar = "ASCIIGenome.jar"
+    java = share/"java"
+    java.install jar
+    bin.write_jar_script java/jar, "ASCIIGenome"
+
+    system "sed -i 's%^prefix.*$%prefix=#{java}%' ASCIIGenome"
+    bin.install %w[ASCIIGenome]
   end
 
   test do
-    system "false"
+    system "ASCIIGenome", "--version"
   end
 end
