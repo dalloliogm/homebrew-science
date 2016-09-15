@@ -1,14 +1,15 @@
 class Pspp < Formula
   desc "Statistical analysis of sampled data (FOSS SPSS clone)"
   homepage "https://www.gnu.org/software/pspp/"
-  url "http://ftpmirror.gnu.org/pspp/pspp-0.8.5.tar.gz"
-  mirror "https://ftp.gnu.org/gnu/pspp/pspp-0.8.5.tar.gz"
-  sha256 "e7efd2ffa58882e97f719cb403d84683751c913cc2ca133b49b1c5e9bd110331"
+  url "https://ftpmirror.gnu.org/pspp/pspp-0.10.2.tar.gz"
+  mirror "https://ftp.gnu.org/gnu/pspp/pspp-0.10.2.tar.gz"
+  sha256 "f77cacae6948689a60f1a5808a5d2e183c1cd0847c7fc6142646c63814c0daa9"
+  revision 1
 
   bottle do
-    sha256 "bc080b73c3eec57444db490c9bed2a78378d282818716de6f9379e5b0744ff14" => :el_capitan
-    sha256 "e3f0e23ec13b11c61b46e88946c99737f9da99a5c59776816edbd076cbb91b19" => :yosemite
-    sha256 "4ea5e8f5ed67e4b8ff74168385be5efe8b1c83fc51d07ac439a3be58bab5a9bf" => :mavericks
+    sha256 "c788733e5382a9a9756cf53bd580936b0e6a613f6bbc982dc10b139d63bf2b9a" => :el_capitan
+    sha256 "93d8f790a38b07904010dc1119bd1bc5347d8b3225e63c0d8162c52499d9b64b" => :yosemite
+    sha256 "c5f5fe5fe033f4f88290a54c8b8dffe126a52fa79523d60609d79ff798bc7675" => :mavericks
   end
 
   option "without-test", "Skip running the PSPP test suite"
@@ -31,7 +32,7 @@ class Pspp < Formula
 
   if build.with? "gui"
     depends_on "gtk+"
-    depends_on "gtksourceview"
+    depends_on "gtksourceview3"
     depends_on "freetype"
     depends_on "fontconfig"
   end

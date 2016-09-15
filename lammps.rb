@@ -6,14 +6,15 @@ class Lammps < Formula
   # YYYY.MM.DD (year.month.day) so that we get a comparable version numbering (for brew outdated)
   version "2016.05.14"
   sha256 "a056a289cd86d4fa8f6a285b26104b04ab92e5ccc445f66281a0c23a432225c9"
+  revision 1
 
   head "http://git.icms.temple.edu/lammps-ro.git"
 
   bottle do
     cellar :any
-    sha256 "fa9c91bcfb6d2a7b922d8900afe962bc0b5ca5badb29c14a946c579ad24a338e" => :el_capitan
-    sha256 "4a3d54e5edcd8cc69b70f35dc3dab4e17195bb96309e081ca9c932afc07f8dd5" => :yosemite
-    sha256 "1b86954010566fd4c364b95a30168f3927555b44af73a8311a81d308b594335e" => :mavericks
+    sha256 "9ad4e18a94fa595554520596966d1900096ed61577c20ac9eea0f9df8d47fa4e" => :el_capitan
+    sha256 "a11a4644dc204045363479895b76d1ff2f235df15eb9740bcaf6bc72d60a0c35" => :yosemite
+    sha256 "9af81e21fb9bac290b965db34090c0f19a15d9c448ccd318353f96b8b60de740" => :mavericks
   end
 
   # user-submitted packages not considered "standard"

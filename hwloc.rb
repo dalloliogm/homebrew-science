@@ -1,14 +1,14 @@
 class Hwloc < Formula
-  homepage "http://www.open-mpi.org/projects/hwloc/"
   desc "Portable abstraction of the hierarchical topology of modern architectures"
-  url "http://www.open-mpi.org/software/hwloc/v1.11/downloads/hwloc-1.11.2.tar.bz2"
-  sha256 "8c029b6b1638245837707bfa6c865f448af4e49e7d352335e019d818b51fecf8"
+  homepage "http://www.open-mpi.org/projects/hwloc/"
+  url "http://www.open-mpi.org/software/hwloc/v1.11/downloads/hwloc-1.11.4.tar.bz2"
+  sha256 "fdc59d06c1ddedb0fa41039bb84cb406f0570b6e66223c13a60077831d36e038"
 
   bottle do
     cellar :any
-    sha256 "e40c40f05d9ae7a0456088c0290ada2a06533f254b83a84e7cbc8de7aab3bd18" => :el_capitan
-    sha256 "a2ad10c55df80a05f2e51c580aff82ec27e90613ad181f01cb23b12c3abba809" => :yosemite
-    sha256 "43259277b18066df843f0f56910c2768c9be151cd0b6ca93a9a256f866eb9786" => :mavericks
+    sha256 "8df975fd83e75442392f6822cb80a3a61d3b85c250e53ca19cf24d40e625bf21" => :el_capitan
+    sha256 "2c2b7d3c47b372ef1e849aa53d628cb8110a983c7667ff248c91e1ab45287075" => :yosemite
+    sha256 "d87e0c400c344cf0e5013ff739ad0676c63ad4dc6a17f566554761430cc965fc" => :mavericks
   end
 
   head do
@@ -29,6 +29,7 @@ class Hwloc < Formula
     system "./autogen.sh" if build.head?
     system "./configure", "--disable-debug",
                           "--disable-dependency-tracking",
+                          "--enable-shared",
                           "--prefix=#{prefix}",
                           "--without-x"
     system "make", "install"
@@ -38,7 +39,7 @@ class Hwloc < Formula
 
   test do
     system ENV.cc, "-I#{include}", "-L#{lib}", "-lhwloc",
-           share/"hwloc/tests/hwloc_groups.c", "-o", "test"
+           pkgshare/"tests/hwloc_groups.c", "-o", "test"
     system "./test"
   end
 end

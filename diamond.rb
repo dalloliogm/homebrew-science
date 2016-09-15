@@ -4,30 +4,25 @@ class Diamond < Formula
   # doi "10.1038/nmeth.3176"
   # tag "bioinformatics"
 
-  url "https://github.com/bbuchfink/diamond/archive/v0.7.9.tar.gz"
-  sha256 "25dc43e41768f7a41c98b8b1dcf5aa2c51c0eaf62e71bff22ad01c97b663d341"
+  url "https://github.com/bbuchfink/diamond/archive/v0.8.22.tar.gz"
+  sha256 "a1cdd0c7838839fa92cf8d06990c9e210cc2702681e5b61bc917fdc20e507851"
 
   bottle do
-    sha256 "e0eb3edc6f875a6b8e37b2d369b27510ec714faf2e94ff414edb94fbd34a1141" => :yosemite
-    sha256 "da0750e96465902fbd7827dc2220c2cb298f71ae488d6175885eb2044e2066ad" => :mavericks
-    sha256 "459c5a98274de600b7a270e51a589c21bae1add6384fe76d4a4b5c3d988778cb" => :mountain_lion
-    sha256 "3a2da6cefa347fd6530eb53ced02e3b10212eb9c560566c7801fde3836fca862" => :x86_64_linux
+    cellar :any_skip_relocation
+    sha256 "4c4fc6d65cd9bc5f556d3552a5c654650ad7b342feec772452bc9a5444434b24" => :el_capitan
+    sha256 "9908a3348fe573b94fe5f2e6e34613db8def949aadad3cc42cbb116f4ef2e50a" => :yosemite
+    sha256 "e02dc0e11c5ff8377325e8a4212e41a01034da3ba44a5e622df3a127a6c757a8" => :mavericks
   end
 
+  depends_on "cmake" => :build
   depends_on "boost"
 
   def install
-    Dir.chdir("src") do
-      inreplace "Makefile", "-Iboost/include", "-I#{Formula["boost"].include}"
-      inreplace "Makefile", "LIBS=-l", "LIBS=-L#{Formula["boost"].lib} -l"
-      inreplace "Makefile", "-lboost_thread", "-lboost_thread-mt"
-      system "make"
-    end
-    bin.install "bin/diamond"
-    doc.install "README.rst"
+    system "cmake", ".", *std_cmake_args
+    system "make", "install"
   end
 
   test do
-    assert_match "gapextend", shell_output("diamond -h 2>&1", 0)
+    assert_match "gapextend", shell_output("#{bin}/diamond help 2>&1")
   end
 end

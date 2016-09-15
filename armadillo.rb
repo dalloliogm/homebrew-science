@@ -1,14 +1,14 @@
 class Armadillo < Formula
   desc "C++ linear algebra library"
   homepage "http://arma.sourceforge.net/"
-  url "https://downloads.sourceforge.net/project/arma/armadillo-7.200.2.tar.xz"
-  sha256 "55ab2e62e305da66de6e1c80d91a55511a924cbcfa95ceb13c87e8a958397dfb"
+  url "https://downloads.sourceforge.net/project/arma/armadillo-7.400.2.tar.xz"
+  sha256 "e4cdac83a7a271da5b503d7cb3f1da9a2c4419905979a9350d99d75421b6b776"
 
   bottle do
     cellar :any
-    sha256 "58425d1c9279d4c9ef24f5b8b187845ab6fa8e8f13ba8d6ea0408ca85a2af221" => :el_capitan
-    sha256 "96deaeb1f5337a6f362179805ddfff901300a54e29845e7ca33fd071928b4860" => :yosemite
-    sha256 "92cbf7021e7df823e636373d4867fdd185cd982f960e83419872b64cc9ae3236" => :mavericks
+    sha256 "125a3829450eeaa9b4fa598ebcd40d212d73872fcedd6a39e7a6517441cc6b93" => :el_capitan
+    sha256 "6d091e38500617c617358fe58d8a07f714ac7ad4e1b74708742c8577dbc28b25" => :yosemite
+    sha256 "ec319822fea56e434d508d1325e8c95dc52da222e2d9bc64cbc087d7cfaacc99" => :mavericks
   end
 
   option "with-hdf5", "Enable the ability to save and load matrices stored in the HDF5 format"

@@ -1,16 +1,17 @@
 class Field3d < Formula
+  desc "Library for storing voxel data on disk and in memory"
   homepage "https://sites.google.com/site/field3d/"
   url "https://github.com/imageworks/Field3D/archive/v1.6.1.tar.gz"
   sha256 "05dcf96db1779c2db8fc9de518bbc8482f43e8cd8cb995ebb06fb22d83879a5a"
-  revision 2
+  revision 4
 
   head "https://github.com/imageworks/Field3D.git"
 
   bottle do
     cellar :any
-    sha256 "b3b659d655a043988258219f64ae83a521a4c65e6a8d851b1f942d9b8827e8e4" => :el_capitan
-    sha256 "3d60c590970faf76a95ac3331e6e2119f48ad0ec678f98f3cfff61b4a13ae0bf" => :yosemite
-    sha256 "e724ee6d0a3dfd66222b69ef9f1ce75636e01a23748a5a97f5883ea5c162aa7d" => :mavericks
+    sha256 "2272ece43f49879bab6aae6dca9d71677a2b5ef1dd27a586935913cc816d655c" => :el_capitan
+    sha256 "df9877f8b6880c372632118bcd4a887f6fc421dc6573f0ee982637bfdb64066d" => :yosemite
+    sha256 "13bf432aadd33a514dd5abdcee4e5934e2531568f554362a0ef29713d4de599e" => :mavericks
   end
 
   depends_on "scons" => :build

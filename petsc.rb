@@ -1,14 +1,16 @@
 class Petsc < Formula
   desc "Scalable solution of models that use partial differential equations"
   homepage "http://www.mcs.anl.gov/petsc/index.html"
-  url "http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-3.7.2.tar.gz"
-  sha256 "ad4cdc761ebc337cd1a461c685c7df12cc90b8a805fc1a63e04f7dd2b2c1d949"
+  url "http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-3.7.3.tar.gz"
+  sha256 "7509281536ab7b908ee77ce5e999bb196f1a9e6ac5515f4518e1c3331e27128a"
+  revision 2
+
   head "https://bitbucket.org/petsc/petsc", :using => :git
 
   bottle do
-    sha256 "6a07e7c17188cae2025b8900911ec060eb262d802f6662b32b433db978441a3d" => :el_capitan
-    sha256 "145c5b1a20b18ecef1a0cdcbb1e1f7e476cfe8175aeac47354223aab734b6cf6" => :yosemite
-    sha256 "c10dc904a82aad6b54d5343367d21d2845d6d668048f6f35534980527aada46a" => :mavericks
+    sha256 "d1e559894290f7057a0ae914ec694126b2c6b4f259864e612ff02775b3963270" => :el_capitan
+    sha256 "6d0e134d05fdd2b9afc6c6f26649bdf7bb37fa0397fe63f90d34ad7bec5e412a" => :yosemite
+    sha256 "6d0d76da04d664ed6dea419edae9b07677e9334e8213fc625fd6785c71dc18a3" => :mavericks
   end
 
   option "without-test", "Skip build-time tests (not recommended)"

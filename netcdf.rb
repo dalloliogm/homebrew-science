@@ -4,22 +4,23 @@ class Netcdf < Formula
   url "ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.3.3.1.tar.gz"
   mirror "http://www.gfd-dennou.org/library/netcdf/unidata-mirror/netcdf-4.3.3.1.tar.gz"
   sha256 "bdde3d8b0e48eed2948ead65f82c5cfb7590313bc32c4cf6c6546e4cea47ba19"
-  revision 4
+  revision 5
 
   bottle do
     cellar :any
-    sha256 "9417a3dfd9e47bf1f744964f4c515a5838f1101c04a8910d1db6b80f0c8fb39b" => :el_capitan
-    sha256 "de2a9557f2eec6ec682b4fef4ac6b2d12a461089267133e9d408d682cf3f404e" => :yosemite
-    sha256 "b807d5fd18583e30e8d00d5b754cf6ad6f5ccbd95e6d56f007b83c911911be22" => :mavericks
+    sha256 "296b07ef52da85517d59f87e0968654aef7f6ed5c082bcd10e911c17ae52da80" => :el_capitan
+    sha256 "fd7b1c3e4684d76a6b6d0e7eb65bf87e8b7de649ff924e56860a7e858ed0d73b" => :yosemite
+    sha256 "a219ba5fd0ea60622cb81b93c80a8f5840db52ed8d933a17af65689650504fcb" => :mavericks
   end
+
+  option "without-cxx", "Don't compile C++ bindings"
+  option "with-cxx-compat", "Compile C++ bindings for compatibility"
+  option "without-test", "Disable checks (not recommended)"
 
   deprecated_option "enable-fortran" => "with-fortran"
   deprecated_option "disable-cxx" => "without-cxx"
   deprecated_option "enable-cxx-compat" => "with-cxx-compat"
-
-  option "without-cxx", "Don't compile C++ bindings"
-  option "with-cxx-compat", "Compile C++ bindings for compatibility"
-  option "without-check", "Disable checks (not recommended)"
+  deprecated_option "without-check" => "without-test"
 
   depends_on :fortran => :optional
   depends_on "hdf5"
@@ -70,8 +71,8 @@ class Netcdf < Formula
 
     system "./configure", *args
     system "make"
-    ENV.deparallelize if build.with? "check" # Required for `make check`.
-    system "make", "check" if build.with? "check"
+    ENV.deparallelize if build.with? "test" # Required for `make check`.
+    system "make", "check" if build.with? "test"
     system "make", "install"
 
     # Add newly created installation to paths so that binding libraries can
@@ -84,7 +85,7 @@ class Netcdf < Formula
       resource("cxx").stage do
         system "./configure", *common_args
         system "make"
-        system "make", "check" if build.with? "check"
+        system "make", "check" if build.with? "test"
         system "make", "install"
       end
     end
@@ -93,7 +94,7 @@ class Netcdf < Formula
       resource("cxx-compat").stage do
         system "./configure", *common_args
         system "make"
-        system "make", "check" if build.with? "check"
+        system "make", "check" if build.with? "test"
         system "make", "install"
       end
     end
@@ -103,10 +104,10 @@ class Netcdf < Formula
         # fixes "error while loading shared libraries: libnetcdf.so.7".
         # see https://github.com/Homebrew/homebrew-science/issues/2521#issuecomment-121851582
         # this should theoretically be enough: ENV.prepend "LDFLAGS", "-L#{lib}", but it is not.
-        ENV.prepend "LD_LIBRARY_PATH", "#{lib}"
+        ENV.prepend "LD_LIBRARY_PATH", lib
         system "./configure", *common_args
         system "make"
-        system "make", "check" if build.with? "check"
+        system "make", "check" if build.with? "test"
         system "make", "install"
       end
     end

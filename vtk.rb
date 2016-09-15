@@ -4,14 +4,14 @@ class Vtk < Formula
   url "http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz"
   mirror "https://fossies.org/linux/misc/VTK-7.0.0.tar.gz"
   sha256 "78a990a15ead79cdc752e86b83cfab7dbf5b7ef51ba409db02570dbdd9ec32c3"
-  revision 1
+  revision 3
 
   head "https://github.com/Kitware/VTK.git"
 
   bottle do
-    sha256 "e857110f179361c0b457c2524b52ea1c1ebcdbb9b4de4099886ab8e20eb6cbaf" => :el_capitan
-    sha256 "52f63ccb87ab6599e1568871861366c6fee1a3386556d7464f375d31ebf271f2" => :yosemite
-    sha256 "34abfcc386d85285124b3577ec7a7bb33745e9ed2f05bb807386e2d8c6e76a25" => :mavericks
+    sha256 "dbdd618e3a16ed47b64df25a611bf95e03459957753adcb315e51dc7bf565c19" => :el_capitan
+    sha256 "430315928aaad5502eb6165995c937c2eb99578a95fa0fe405bf5d6a3632cfd4" => :yosemite
+    sha256 "d33f0bcd98119786071be10e5352e75c3b7006d8f72d6deeef5be6659f4aff13" => :mavericks
   end
 
   deprecated_option "examples" => "with-examples"
@@ -148,7 +148,7 @@ class Vtk < Formula
       system "make", "install"
     end
 
-    (share+"vtk").install "Examples" if build.with? "examples"
+    pkgshare.install "Examples" if build.with? "examples"
   end
 
   def caveats

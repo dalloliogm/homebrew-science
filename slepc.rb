@@ -1,13 +1,14 @@
 class Slepc < Formula
   desc "Scalable Library for Eigenvalue Computations"
   homepage "http://www.grycap.upv.es/slepc"
-  url "http://slepc.upv.es/download/download.php?filename=slepc-3.7.1.tar.gz"
-  sha256 "670216f263e3074b21e0623c01bc0f562fdc0bffcd7bd42dd5d8edbe73a532c2"
+  url "http://slepc.upv.es/download/download.php?filename=slepc-3.7.2.tar.gz"
+  sha256 "09bd88a6023f39aa91edf55f24be1c8b9fdcfebb952539af0292aae69985741f"
+  revision 2
 
   bottle do
-    sha256 "5cb05e786af827d4ffca8443f65c8055024d22ecfa391d56d0d7e3fcdebfcb17" => :el_capitan
-    sha256 "d3d6362f4299f176ff2fc694abca7902264b6936852b681880a798d52ea59286" => :yosemite
-    sha256 "a33a77cfb31176b2031f12da49953c4090159356dc9e595ecf86a3a821a87244" => :mavericks
+    sha256 "d52d4dc0438078f63dc85a62bcb70096a916128682d1a1a552c10125bea237e5" => :el_capitan
+    sha256 "0cb8dd9b67797a4c14c3501a0f50db7f73b3ccbf2251334a0c2e03d5451ce620" => :yosemite
+    sha256 "7fea9580a1d6e97f7a30ff22cbbd835712aa94f83186afb5f1ec4f1169e2f41a" => :mavericks
   end
 
   deprecated_option "complex" => "with-complex"
@@ -24,6 +25,7 @@ class Slepc < Formula
   depends_on "petsc" => openblasdep
   depends_on :mpi => [:cc, :f90]
   depends_on :fortran
+  depends_on "hdf5"
   depends_on :x11 => :optional
   depends_on "arpack" => [:recommended, "with-mpi"] + openblasdep
 

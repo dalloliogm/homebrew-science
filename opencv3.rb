@@ -3,51 +3,50 @@ require File.expand_path("../Requirements/cuda_requirement", __FILE__)
 class Opencv3 < Formula
   desc "Open source computer vision library, version 3"
   homepage "http://opencv.org/"
-  revision 3
+  revision 4
 
   stable do
-    url "https://github.com/Itseez/opencv/archive/3.1.0.tar.gz"
+    url "https://github.com/opencv/opencv/archive/3.1.0.tar.gz"
     sha256 "f00b3c4f42acda07d89031a2ebb5ebe390764a133502c03a511f67b78bbd4fbf"
 
     resource "contrib" do
-      url "https://github.com/Itseez/opencv_contrib/archive/3.1.0.tar.gz"
+      url "https://github.com/opencv/opencv_contrib/archive/3.1.0.tar.gz"
       sha256 "ef2084bcd4c3812eb53c21fa81477d800e8ce8075b68d9dedec90fef395156e5"
     end
 
     patch do
-      # patch fixing crash after 100s when using capturing device https://github.com/Itseez/opencv/issues/5874
+      # patch fixing crash after 100s when using capturing device https://github.com/opencv/opencv/issues/5874
       # can be removed with next release
-      url "https://github.com/Itseez/opencv/commit/a2bda999211e8be9fbc5d40038fdfc9399de31fc.diff"
+      url "https://github.com/opencv/opencv/commit/a2bda999211e8be9fbc5d40038fdfc9399de31fc.diff"
       sha256 "c1f83ec305337744455c2b09c83624a7a3710cfddef2f398bb4ac20ea16197e2"
     end
 
     patch do
       # patch fixes build error https://github.com/Homebrew/homebrew-science/issues/3147 when not using --without-opencl
       # can be removed with next release
-      url "https://github.com/Itseez/opencv/commit/c7bdbef5042dadfe032dfb5d80f9b90bec830371.diff"
+      url "https://github.com/opencv/opencv/commit/c7bdbef5042dadfe032dfb5d80f9b90bec830371.diff"
       sha256 "106785f8478451575026e9bf3033e418d8509ffb93e62722701fa017dc043d91"
     end
 
     patch do
       # patch fixes build error when including example sources
       # can be removed with next release
-      url "https://github.com/Itseez/opencv/commit/cdb9c60dcb65e04e7c0bd6bef9b86841191c785a.diff"
+      url "https://github.com/opencv/opencv/commit/cdb9c60dcb65e04e7c0bd6bef9b86841191c785a.diff"
       sha256 "a14499a8c16545cf1bb206cfe0ed8a65697100dca9b2ae5274516d1213a1a32b"
     end
   end
 
   bottle do
-    revision 4
-    sha256 "47fc984f127ec80f786aa009b4a698430516b307da6f0caf5b20e6fb2f1425dc" => :el_capitan
-    sha256 "52a75aa66b42daed8f0c26e6f1bf82f753b4c23b7bb83ff55a33da6322a08bb4" => :yosemite
-    sha256 "710f4eb5c3499f41c2859593ba940b0d8d1c7c9c7d0c52fb23584efe7a43f9a3" => :mavericks
+    sha256 "a09c8a723c7266f790db768d8a89c50e367071fa4c0015bdf632a94af37194fb" => :el_capitan
+    sha256 "7c089cc50c50aed8a7f53096a61fe538eaec502a8d6e5be6a73f0bfa97c6bc75" => :yosemite
+    sha256 "3492582fc4888a77d132a84444ff4271a4a6d8e49cb274abeb5fa6c0cc95e2df" => :mavericks
   end
 
   head do
-    url "https://github.com/Itseez/opencv.git"
+    url "https://github.com/opencv/opencv.git"
 
     resource "contrib" do
-      url "https://github.com/Itseez/opencv_contrib.git"
+      url "https://github.com/opencv/opencv_contrib.git"
     end
   end
 
@@ -107,12 +106,12 @@ class Opencv3 < Formula
   cxxstdlib_check :skip
 
   resource "icv-macosx" do
-    url "https://raw.githubusercontent.com/Itseez/opencv_3rdparty/81a676001ca8075ada498583e4166079e5744668/ippicv/ippicv_macosx_20151201.tgz", :using => :nounzip
+    url "https://raw.githubusercontent.com/opencv/opencv_3rdparty/81a676001ca8075ada498583e4166079e5744668/ippicv/ippicv_macosx_20151201.tgz", :using => :nounzip
     sha256 "8a067e3e026195ea3ee5cda836f25231abb95b82b7aa25f0d585dc27b06c3630"
   end
 
   resource "icv-linux" do
-    url "https://raw.githubusercontent.com/Itseez/opencv_3rdparty/81a676001ca8075ada498583e4166079e5744668/ippicv/ippicv_linux_20151201.tgz", :using => :nounzip
+    url "https://raw.githubusercontent.com/opencv/opencv_3rdparty/81a676001ca8075ada498583e4166079e5744668/ippicv/ippicv_linux_20151201.tgz", :using => :nounzip
     sha256 "4333833e40afaa22c804169e44f9a63e357e21476b765a5683bcb3760107f0da"
   end
 

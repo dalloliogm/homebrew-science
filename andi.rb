@@ -6,12 +6,13 @@ class Andi < Formula
 
   url "https://github.com/EvolBioInf/andi/releases/download/v0.10/andi-0.10.tar.gz"
   sha256 "7182d43bd13aa51d12a5d69fe4e3e4f83aab8429f5030192ae860e1a1b0e3f77"
+  revision 1
 
   bottle do
     cellar :any
-    sha256 "0e87c2f66d747c56e71995435f0972cdd4f55042596237a677eb03c488659797" => :el_capitan
-    sha256 "511676f1065cbee4099049ad351098f55111190a53b8dba63ca5182528d09a88" => :yosemite
-    sha256 "3ed9cf0b24aa1e585a5b22f90f425844979c481d9f036607f3c819f13a9bf8c8" => :mavericks
+    sha256 "92ea0b4143d62faafd41495514d5f966d761b6dd6f30bae1a16afb094628c417" => :el_capitan
+    sha256 "e220eb0b520a6aec9539596af23eccb060ce3ae69667e177b2dbf0005865181e" => :yosemite
+    sha256 "232bbad5b5e892049e1e3353ec754ca4daff972862011a2848de1e57bf756ea6" => :mavericks
   end
 
   depends_on "gsl"

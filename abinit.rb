@@ -3,17 +3,19 @@ class Abinit < Formula
   homepage "http://www.abinit.org"
   url "http://ftp.abinit.org/abinit-8.0.7.tar.gz"
   sha256 "9df2fe572af39cef937a4134d569321b99c6670f187edbac9b355ff2defd5afc"
-  revision 1
+  revision 3
 
   bottle do
     cellar :any
-    sha256 "820d0f4bf0b9e64dec6c8ef3f4e4ad12c5caf448f880834bfb4cef2891098453" => :el_capitan
-    sha256 "c929dcbf0b62f6b8a4a0edc255204df42df39a7dc61309c82bbaae1ad4b7563d" => :yosemite
-    sha256 "9184e1d02eba8e1e69cab992cd2a5a9cb0d758b1b3b70368b55d74682c902085" => :mavericks
+    sha256 "8079826fc1b9df6f4b721c38b401e1fe1bc1721113c44f2502258e91efba391b" => :el_capitan
+    sha256 "7c043dbf26c0386e09ebc1d2012b7f81d46ecbf46a89d4f8a7534f410f63f11c" => :yosemite
+    sha256 "9b01ac42edb80eb1eb2c6afc9567c57775664796b34759778fd9898a32cf4f1c" => :mavericks
   end
 
   option "without-test", "Skip build-time tests (not recommended)"
   option "with-testsuite", "Run full test suite (time consuming)"
+
+  deprecated_option "without-check" => "without-test"
 
   depends_on :mpi => [:cc, :cxx, :f77, :f90]
   depends_on :fortran
@@ -31,16 +33,18 @@ class Abinit < Formula
     ENV.delete "CXX"
     ENV.delete "F77"
     ENV.delete "FC"
-    args = %W[CC=#{ENV["MPICC"]}
-              CXX=#{ENV["MPICXX"]}
-              F77=#{ENV["MPIF77"]}
-              FC=#{ENV["MPIFC"]}
-              --prefix=#{prefix}
-              --enable-mpi=yes
-              --with-mpi-prefix=#{HOMEBREW_PREFIX}
-              --enable-optim=safe
-              --enable-openmp=no
-              --enable-gw-dpc]
+    args = %W[
+      CC=#{ENV["MPICC"]}
+      CXX=#{ENV["MPICXX"]}
+      F77=#{ENV["MPIF77"]}
+      FC=#{ENV["MPIFC"]}
+      --prefix=#{prefix}
+      --enable-mpi=yes
+      --with-mpi-prefix=#{HOMEBREW_PREFIX}
+      --enable-optim=safe
+      --enable-openmp=no
+      --enable-gw-dpc
+    ]
 
     dft_flavor = "none"
     trio_flavor = "none"

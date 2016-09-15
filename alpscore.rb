@@ -3,13 +3,15 @@ class Alpscore < Formula
   homepage "http://alpscore.org"
   url "https://github.com/ALPSCore/ALPSCore/archive/v0.5.4.tar.gz"
   sha256 "909e6a06673e7fa0d6c985f46ecf0090ca7a5ff682002fe63b0270c578ca3b82"
+  revision 3
+
   head "https://github.com/ALPSCore/ALPSCore.git"
 
   bottle do
     cellar :any
-    sha256 "8091e2eb39dfd5d32075e64df0d70dd3bf239d7e90c57eac76c5325c8a7263dd" => :el_capitan
-    sha256 "8662412529882363571627355d8df2258b9a862481657b463e51f40f0d9124c6" => :yosemite
-    sha256 "1667f02000164749a132326fb142fd6863bc30caea32ef986b164952e924fce6" => :mavericks
+    sha256 "bd78edbcdaad1e83eb18f8dd92ef4d54d47eaabe5a73fb25e9e1a28d43fa9c5a" => :el_capitan
+    sha256 "a572b4fd2ea7e97cfff8431e7260eaefe5cd0e0cce65e31b3df50c44bf46a785" => :yosemite
+    sha256 "0b9af7a91b8f9363b159bc4dae10b7bdfa521853ff79f9580bb772b68695ba8e" => :mavericks
   end
 
   option :cxx11
@@ -24,7 +26,7 @@ class Alpscore < Formula
   boost_options << "c++11" if build.cxx11?
   depends_on "boost" => boost_options
 
-  depends_on "hdf5" => ((build.cxx11?) ? ["c++11"] : [])
+  depends_on "hdf5" => (build.cxx11? ? ["c++11"] : [])
 
   def install
     ENV.cxx11 if build.cxx11?
@@ -71,10 +73,11 @@ class Alpscore < Formula
         p["myparam"] = 1.0;
       }
     EOS
-    args_compile = ["test.cpp",
-                    "-lalps-accumulators", "-lalps-hdf5", "-lalps-utilities", "-lalps-params",
-                    "-lboost_filesystem-mt", "-lboost_system-mt", "-lboost_program_options-mt"
-                   ]
+    args_compile = [
+      "test.cpp",
+      "-lalps-accumulators", "-lalps-hdf5", "-lalps-utilities", "-lalps-params",
+      "-lboost_filesystem-mt", "-lboost_system-mt", "-lboost_program_options-mt"
+    ]
     args_compile << "-o" << "test"
     system ((build.with? "mpi") ? "mpicxx" : ENV.cxx), *args_compile
     system "./test"

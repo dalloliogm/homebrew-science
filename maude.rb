@@ -1,32 +1,41 @@
 class Maude < Formula
-  desc "reflective language for equationals and logic specifications."
+  desc "reflective language for equational and rewriting logic specification"
   homepage "http://maude.cs.illinois.edu"
-  url "http://maude.cs.illinois.edu/w/images/8/81/Maude27-osx.zip"
-  version "2.7"
-  sha256 "7b97f675ede00edb8435cee08ea41e5226eb8daf7dea7c52c7c79d70dd5fc0ff"
+  url "http://maude.cs.illinois.edu/w/images/d/d8/Maude-2.7.1.tar.gz"
+  sha256 "b1887c7fa75e85a1526467727242f77b5ec7cd6a5dfa4ceb686b6f545bb1534b"
 
   bottle do
-    cellar :any_skip_relocation
-    sha256 "cbdd5374a68789987374995e612f268dcda8afd8f6e493744884943a0f1ac7cb" => :el_capitan
-    sha256 "3280a654d8d4248d8aaace8667f51e645e812b5cc2a87d1f3e24572578de238f" => :yosemite
-    sha256 "3826c4e7c7361a826d10db6aafc82f58681968b1427658338e717669dd714ee3" => :mavericks
+    cellar :any
+    sha256 "4483de1d92e6eadfac788f22bd6fcb2eb29161b2de9f4debafde0572bd8be542" => :el_capitan
+    sha256 "ba6cf045460330fd734a17f6a9eab4fef171ff4f3ce7985a258d974d374f05d0" => :yosemite
+    sha256 "56aac9af714615769ca7c06ceb738f11050b7c38e70f1e47675e900984be90e9" => :mavericks
   end
+
+  depends_on "gmp"
+  depends_on "libbuddy"
+  depends_on "libsigsegv"
+  depends_on "libtecla"
 
   def install
-    bin.install "maude.darwin64" => "maude"
-    prefix.install Dir["*.maude"]
-  end
-
-  def caveats; <<-EOS.undent
-    To use Maude and its recources,
-    you need to add the following to your ~/.bashrc:
-
-    export MAUDE_LIB="#{HOMEBREW_PREFIX}/Cellar/#{name}/#{version}"
-    EOS
+    ENV.deparallelize
+    system "./configure", "--disable-debug",
+                          "--disable-dependency-tracking",
+                          "--disable-silent-rules",
+                          "--prefix=#{libexec}",
+                          "--without-cvc4"
+    system "make", "install"
+    (bin/"maude").write_env_script libexec/"bin/maude", :MAUDE_LIB => libexec/"share"
   end
 
   test do
-    # this will reveal any errors or warnings using maude
-    system "echo", "''", "|", "maude"
+    input = <<-EOS.undent
+      set show stats off .
+      set show timing off .
+      set show command off .
+      reduce in STRING : "hello" + " " + "world" .
+    EOS
+    expect = %(Maude> result String: "hello world"\nMaude> Bye.\n)
+    output = pipe_output("#{bin/"maude"} -no-banner", input)
+    assert_equal expect, output
   end
 end

@@ -9,14 +9,14 @@ class Phlawd < Formula
   url "https://github.com/chinchliff/phlawd/releases/download/3.4a/phlawd_3.4a_src_with_sqlitewrapped_1.3.1.tar.gz"
   version "3.4a"
   sha256 "0ec8e45359af6e932ea4a042fe4f42ddf05b04689a25df937b2d85db41038253"
-  revision 1
+  revision 2
   head "https://github.com/chinchliff/phlawd.git"
 
   bottle do
     cellar :any
-    sha256 "596b39c60e34f0fb0903608069c6bc7a7e95f293263fbcbd159d21f625263e85" => :el_capitan
-    sha256 "93e832b4a937ed89898c2b7e9a58d61a8c1100a9b08bb8657ccdf46b14b467a4" => :yosemite
-    sha256 "a555afc38f33773723596db6a833300aece36d1a26baa4ffbc65e6321dfc6366" => :mavericks
+    sha256 "a7b98405c068cd47d3182d45a3602ac3ca8ab3b15e0fcc95e7ceab32da5fc9e1" => :el_capitan
+    sha256 "68e72f580d7e1096d4913a95e83d69d3dd5435eb31fadd75273db8fbe93618b2" => :yosemite
+    sha256 "3702f5dda4d6a607283d81b4efc83dd2cfe0c57d0ec6b8a907f974156e8f26f3" => :mavericks
   end
 
   fails_with :clang do
@@ -42,6 +42,11 @@ class Phlawd < Formula
   depends_on "sqlite"
 
   def install
+    # Linux doesn't support -arch
+    if OS.linux?
+      inreplace "sqlitewrapped-1.3.1/Makefile", "-arch x86_64", ""
+      inreplace "src/Makefile.MAC", "-arch x86_64", ""
+    end
     # compile sqlitewrapped: a dependency included here since it's uncommon and unmaintained
     system "make", "-C", "sqlitewrapped-1.3.1"
 

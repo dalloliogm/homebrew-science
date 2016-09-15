@@ -1,14 +1,14 @@
 class Gnudatalanguage < Formula
-  desc "A free and open-source IDL/PV-WAVE compiler"
+  desc "Free and open-source IDL/PV-WAVE compiler"
   homepage "http://gnudatalanguage.sourceforge.net"
   url "https://downloads.sourceforge.net/project/gnudatalanguage/gdl/0.9.5/gdl-0.9.5.tar.gz"
   sha256 "cc9635e836b5ea456cad93f8a07d589aed8649668fbd14c4aad22091991137e2"
-  revision 2
+  revision 4
 
   bottle do
-    sha256 "5adb7ff184a86ff2e8cc0f39dad812fbe452d74fd31b39fd7503498d9ed9231f" => :el_capitan
-    sha256 "e9f69694ea39bff87868a4544015044eabdc733053642fad5b9eb4c710bb4fea" => :yosemite
-    sha256 "edc19d2a51ac6a46dfa5f2aeb80a06be1d99ae56322eff9cda9f0c1d7a35333b" => :mavericks
+    sha256 "10357af398cc3b9869b68dc238e2e311bee32241eb167c3843857529fc15ebe7" => :el_capitan
+    sha256 "b5da54ccd28af6bcc128744f65984c6a419b1512048362cb09399f8d2b8242c3" => :yosemite
+    sha256 "a820a234765d1069effc1b47a92e798ee007040aaa50ddc675e2b89518ca7e3f" => :mavericks
   end
 
   depends_on "cmake" => :build

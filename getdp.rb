@@ -7,44 +7,41 @@ end
 class Getdp < Formula
   desc "Open source finite element solver using mixed elements."
   homepage "http://www.geuz.org/getdp/"
-  url "http://www.geuz.org/getdp/src/getdp-2.8.0-source.tgz"
-  sha256 "7941809d01b3b045f70382b719dc1bcfeea9d794ac075771a1e82be0960748dd"
-  revision 1
+  url "http://www.geuz.org/getdp/src/getdp-2.9.0-source.tgz"
+  sha256 "08487f3f5a41012d06db0ec97206b883961c0e7853f47f8502f6d1ef80ef67c9"
+  revision 5
+
   head "https://geuz.org/svn/getdp/trunk", :using => GetdpSvnStrategy
 
   bottle do
-    sha256 "b2f0dd5ce689ad7e05f99366d226e60081edc5e30befbbb69b3aaece8fb3c29f" => :el_capitan
-    sha256 "fde6273ece93671368c3f543118ca76e9e6f6cdeb9fffc75dae47df5cdcdf51e" => :yosemite
-    sha256 "12efa0266fbef422414208420e63b67e641befd17150ca081298bbc8827f1876" => :mavericks
+    sha256 "9e9220b148e3c2ccb3b748a7384974764a6fdef11da2ce43ec2191fa89ea5dd5" => :el_capitan
+    sha256 "934c6f2d4bbe318f36e3b69e4232d9938b2fdfcca0af4c8e5c1e725c25a8bf25" => :yosemite
+    sha256 "cfb5f5efcff59c24fe3a206cacad853229af032f85d488b5a29db956708c5e7e" => :mavericks
   end
 
   option "without-test", "skip build-time tests (not recommended)"
   deprecated_option "without-check" => "without-test"
 
+  depends_on "cmake"    => :build
   depends_on :fortran
   depends_on :mpi => [:cc, :cxx, :f90, :recommended]
-  depends_on "arpack"   => :recommended
+  if build.with? "mpi"
+    depends_on "arpack"   => [:recommended, "with-mpi"]
+  else
+    depends_on "arpack" => :recommended
+  end
   depends_on "gmsh"     => :recommended
   depends_on "gsl"      => :recommended
   depends_on "hdf5"     => :recommended
+  if build.with? "mpi"
+    depends_on "hdf5"   => [:recommended, "with-mpi"]
+  else
+    depends_on "hdf5" => :recommended
+  end
   depends_on "metis"    => :recommended
   depends_on "mumps"    => :recommended
   depends_on "petsc"    => :recommended
   depends_on "slepc"    => :recommended
-
-  depends_on "cmake"    => :build
-
-  # patches for PETSc >= 3.7
-  # thanks @schoeps
-  patch do
-    url "https://gist.githubusercontent.com/schoeps/53365da617aa6cfac332d0a19235215f/raw/e4df9983682e189bd3a2cb33434a994b45757b8d/EigenSolve.patch"
-    sha256 "1950275890bf8ba1ad23ec80ff012921711fa0f3b5ee16ceac8be27ac356deea"
-  end
-
-  patch do
-    url "https://gist.githubusercontent.com/schoeps/53365da617aa6cfac332d0a19235215f/raw/e4df9983682e189bd3a2cb33434a994b45757b8d/LinAlg_PETSC.patch"
-    sha256 "43c3d0ba87c07846818f147e2ee66110e5b9c9ebd856b0ae682d6d1c014d76c6"
-  end
 
   def install
     args = std_cmake_args

@@ -3,21 +3,15 @@ require File.expand_path("../Requirements/cuda_requirement", __FILE__)
 class Pcl < Formula
   desc "Library for 2D/3D image and point cloud processing"
   homepage "http://www.pointclouds.org/"
-
-  stable do
-    url "https://github.com/PointCloudLibrary/pcl/archive/pcl-1.8.0.tar.gz"
-    sha256 "9e54b0c1b59a67a386b9b0f4acb2d764272ff9a0377b825c4ed5eedf46ebfcf4"
-  end
-
-  head do
-    url "https://github.com/PointCloudLibrary/pcl.git"
-  end
+  url "https://github.com/PointCloudLibrary/pcl/archive/pcl-1.8.0.tar.gz"
+  sha256 "9e54b0c1b59a67a386b9b0f4acb2d764272ff9a0377b825c4ed5eedf46ebfcf4"
+  head "https://github.com/PointCloudLibrary/pcl.git"
+  revision 2
 
   bottle do
-    revision 1
-    sha256 "e327a60a55dc7797da75bc39c88d26e753fbe5b5eedf86728fe6d6dddb256896" => :el_capitan
-    sha256 "babbd5cffed3a43dddd3ad1410612e2e7d4665700268af529a63b15883ae4e29" => :yosemite
-    sha256 "6d481a275f11848cdccac7b77710077449b27548bdafeccee146e0f1dbcc441a" => :mavericks
+    sha256 "479be6e6410f4f2564d6f73816bd5d3a6356e5d12aa9ed073c0a9fef9b0efaa2" => :el_capitan
+    sha256 "c2a3531109975e09808556ce922967bd9b0fcf167280ffa7dcdf86a065baddb6" => :yosemite
+    sha256 "d5b080e0d6c48e6640ca503810a644a30f214019171250f3af4a850614483ccc" => :mavericks
   end
 
   option "with-examples", "Build pcl examples."
@@ -53,6 +47,7 @@ class Pcl < Formula
   end
   depends_on "openni" => :optional
   depends_on "openni2" => :optional
+
 
   def install
     args = std_cmake_args + %W[
@@ -132,5 +127,9 @@ class Pcl < Formula
 
       prefix.install Dir["#{bin}/*.app"]
     end
+  end
+
+  test do
+    assert_match "tiff files", shell_output("#{bin}/pcl_tiff2pcd -h", 255)
   end
 end

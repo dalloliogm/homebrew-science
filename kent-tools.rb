@@ -1,15 +1,15 @@
 class KentTools < Formula
   desc "Utilities for the UCSC Genome Browser"
   homepage "http://genome.ucsc.edu/"
-  url "http://hgdownload.soe.ucsc.edu/admin/exe/userApps.v327.src.tgz"
-  sha256 "08d4650ef56b4a927a773d99a4c0532dcb25c1b345367e2d37529705808f55cf"
+  url "http://hgdownload.soe.ucsc.edu/admin/exe/userApps.v337.src.tgz"
+  sha256 "17b5d039ca63fe537a9b8a6d3babf5fe9274ffd25b4ae53f2ea49e8905b0c0a4"
   head "git://genome-source.cse.ucsc.edu/kent.git"
 
   bottle do
     cellar :any
-    sha256 "75a15c558cbbfbf3aa6a3309e94eb8ae30beb17742e7243ea185ca1f97f595e8" => :el_capitan
-    sha256 "11702a6c3f3c9886c602d4e05406040b638e1ebf719bf8306e96e83fa925ab9a" => :yosemite
-    sha256 "080ffeffb96e3f3d7c4d73e03ae9d55c9c37eda57adc012345c04fb0004ea297" => :mavericks
+    sha256 "7d9c3b389ad5407ae662135fbc6b91d41364958b7440b74e5985b08a01c99fe6" => :el_capitan
+    sha256 "ed11a1d33911cba7d872049bbf6ce059301b7fd48943666c52d8763462574610" => :yosemite
+    sha256 "dd9c9cf5b6f2172d0a2ac81411d6c153925a5c27b05ad783d353403f751a205d" => :mavericks
   end
 
   depends_on :mysql

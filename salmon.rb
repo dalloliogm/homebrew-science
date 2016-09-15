@@ -3,16 +3,16 @@ class Salmon < Formula
   homepage "https://github.com/COMBINE-lab/salmon"
   # tag "bioinformatics"
 
-  url "https://github.com/COMBINE-lab/salmon/archive/v0.6.0.tar.gz"
-  sha256 "2a015c0f95b745fbed575d8610aea7e09cb1af55ca2c68e10ab15826fba263b1"
+  url "https://github.com/COMBINE-lab/salmon/archive/v0.7.2.tar.gz"
+  sha256 "d35147663d349a6c28bcabf51e85d5a45f24273be1c4cda76173ffa15bd68d0a"
 
   head "https://github.com/COMBINE-lab/salmon.git"
 
   bottle do
-    sha256 "d8e67d2d7c1347c48008c1c34ce0155bd4abb693e90c5e4c7f88110dde882754" => :el_capitan
-    sha256 "71e0bbea9e3293cbc1906f32d1346e45da05b08628262fd1fc7ffe5584c7b347" => :yosemite
-    sha256 "6064db33c7bf432fe9f982fa84e03dff155dc3b93e4c592d968898fd8912cce0" => :mavericks
-    sha256 "abf450798088d659b47058e39ef72bd0248914659656594e061efe7f8ccf3bcf" => :x86_64_linux
+    cellar :any
+    sha256 "c8acb85e67e81d6bd2bedcd408937cc92e09d7a2a4d0ff56fbf4448736d9b052" => :el_capitan
+    sha256 "1ba278c961a7f5bd0d22128c28c8fc8ab6bbdebce30b5f636d10a1c180b493aa" => :yosemite
+    sha256 "4341b6d73b4c99ca6dbabd4a2f708cf7d7ef1fa5af1df4b6cb1ce7a26327cd39" => :mavericks
   end
 
   # See https://github.com/kingsfordgroup/sailfish/issues/74
@@ -29,6 +29,13 @@ class Salmon < Formula
   def install
     # Fix error: Unable to find the requested Boost libraries.
     ENV.deparallelize
+
+    # Fix wonky clang reporting itself as GCC
+    if ENV.compiler == :clang && MacOS.version <= :mavericks
+      inreplace "include/concurrentqueue.h",
+                "typedef ::max_align_t max_align_t",
+                "typedef std::max_align_t max_align_t"
+    end
 
     system "cmake", ".", *std_cmake_args
     system "make", "install"

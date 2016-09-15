@@ -4,6 +4,7 @@ class Galsim < Formula
   url "https://github.com/GalSim-developers/GalSim/archive/v1.3.0.tar.gz"
   sha256 "4afd3284adfd12845b045ea3c8e293b63057c7da57872bc9eecd005cf0a763c0"
   head "https://github.com/GalSim-developers/GalSim.git"
+  revision 1
 
   option "with-openmp", "Enable openmp support (gcc only)"
   option "without-check", "Skip build-time tests (not recommended)"
@@ -14,8 +15,8 @@ class Galsim < Formula
   depends_on "boost-python"
   depends_on "tmv-cpp"
 
-  # pyfits should come from pip
-  depends_on "pyfits" => :python
+  # FITS support should come from astropy.io.fits (PyFITS has been deprecated)
+  depends_on "astropy" => :python
   depends_on "numpy" => :python
   depends_on "nose" => :python if build.with? "check"
 
@@ -42,12 +43,17 @@ class Galsim < Formula
     pkgshare.install "examples"
   end
 
-  def caveats; <<-EOS.undent
-    The GalSim installer may warn you that #{lib}/python#{pyver} isn't in your python
-    search path. You may want to add all Homebrew python packages to the
-    default paths by running:
-       sudo bash -c 'echo \"#{lib}/python#{pyver}\" >> \\\\
-         /Library/Python/#{pyver}/site-packages/homebrew.pth'
+  def caveats
+      homebrew_site_packages = Language::Python.homebrew_site_packages
+      user_site_packages = Language::Python.user_site_packages "python"
+      s = <<-EOS.undent
+        If you use the Apple-provided Python instead of one from Homebrew, you
+        may want to add all Homebrew python packages to the default paths
+        by running:
+
+           mkdir -p #{user_site_packages}
+           echo 'import sys; sys.path.insert(1, "#{homebrew_site_packages}")' >> \\
+               #{user_site_packages}/homebrew.pth
     EOS
   end
 

@@ -5,13 +5,14 @@ class Tophat < Formula
   sha256 "37840b96f3219630082b15642c47f5ef95d14f6ee99c06a369b08b3d05684da5"
   # doi "10.1093/bioinformatics/btp120"
   # tag "bioinformatics"
+  revision 1
 
   bottle do
     cellar :any
-    sha256 "186e8686503284e7ac3e0187388e5babaf1d5f07df07d6dbc27d91091becc505" => :el_capitan
-    sha256 "f43d751a37fbe897315e450219392161becf97f445729d0dc007b8048687c3c7" => :yosemite
-    sha256 "4f78eba798dbf5d23f237e87abdd5486b2fc874f6771fb0e1f8b6b1030cf37c1" => :mavericks
-    sha256 "dedd0fa5a2cf7b3bd87431c9a3851c8f54231966a67406528501b804ff9ad5c0" => :x86_64_linux
+    sha256 "7c8cd03f1b5429a9458f23c3e89c1ca70a3bb66f86ea99830da78f6ca7df3060" => :el_capitan
+    sha256 "9018f5952a79235bd3955522ac46ab0e94cbd489ec802f9295c24bd85ab204dd" => :yosemite
+    sha256 "acd66232b41070f1fd1d5901a63f7306cbdb7793a7036c67b31a887c5be019dd" => :mavericks
+    sha256 "a4aaf9f979f98b0c6e07cbf9eec6b334da8a08fb31e42170e6a5b46623300f1c" => :x86_64_linux
   end
 
   depends_on "boost"

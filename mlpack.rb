@@ -3,13 +3,13 @@ class Mlpack < Formula
   # doi "arXiv:1210.6293"
   url "http://www.mlpack.org/files/mlpack-2.0.1.tar.gz"
   sha256 "87305f7003e060d3c93d60ce1365c4ec0fa7e827c356e857be316b0e54114f22"
-  revision 1
+  revision 3
 
   bottle do
     cellar :any
-    sha256 "a968f5bafb4ed1255b8486af07aad0814c184680f53842e7fe231c35b7e7a104" => :el_capitan
-    sha256 "972bef86e0925a48437da5d846e3853933beb08b9456857c9da8407c8cbe195a" => :yosemite
-    sha256 "3a22e8cc66493bad73d466c79e60145c1c0c1c45d1ebcfd611a6e243f940ebea" => :mavericks
+    sha256 "ef682f775a9cbb80b7413c8b7778753dfaf93ae4889cad88f7d3f2707de04d40" => :el_capitan
+    sha256 "42637dea2fee5b6aa22720343dc16b6f73bf86afc21723acca83d1ae5e81839c" => :yosemite
+    sha256 "7e25e13e6a5553efa8ee34cd673d905a1721b6174195a19b5bcc352d4151a3e7" => :mavericks
   end
 
   needs :cxx11
@@ -19,7 +19,6 @@ class Mlpack < Formula
   depends_on "libxml2"
   depends_on "armadillo" => ["with-hdf5"] + cxx11dep
   depends_on "boost" => cxx11dep
-  depends_on "txt2man" => :optional
 
   option "with-debug", "Compile with debug options"
   option "with-profile", "Compile with profile options"

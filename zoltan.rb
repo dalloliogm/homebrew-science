@@ -1,15 +1,22 @@
 class Zoltan < Formula
+  desc "Zoltan: Parallel Partitioning, Load Balancing and Data-Management"
   homepage "http://www.cs.sandia.gov/Zoltan"
-  url "http://www.cs.sandia.gov/~kddevin/Zoltan_Distributions/zoltan_distrib_v3.81.tar.gz"
-  sha256 "9d6f2f9e2b37456cab7fe6714d51cd6d613374e915e6cc9f7fddcd72e3f38780"
+  url "http://www.cs.sandia.gov/~kddevin/Zoltan_Distributions/zoltan_distrib_v3.83.tar.gz"
+  sha256 "d0d78fdeab7a385c87d3666b8a8dc748994ff04d3fd846872a4845e12d79c1bb"
+  revision 2
 
   bottle do
-    sha256 "133207543f781aa413062f7ecbe80b89e76b96577b62fe150727fa9f499a6d3c" => :yosemite
-    sha256 "970454cab90e1c4ed9cccd2042c704d4122a4cfe59d5044d8b193bfcefe8fbe2" => :mavericks
-    sha256 "d60f28375337061ea183d9e1112018498ad6dc33acbeaf5764a461b30ad797d5" => :mountain_lion
+    cellar :any_skip_relocation
+    sha256 "cc7c42d60ef77018b8e274024237223f88cc3fe4aea503e146005bc6d20d624c" => :el_capitan
+    sha256 "dd8c56898a543c2a063d74f77e9d1a28f741b2e749875b55bd551498e17cc47a" => :yosemite
+    sha256 "a4128a0c7000c85eb9087724e7da9a8bd17e4227b7dcdae39110d560e9e92dbe" => :mavericks
   end
 
-  option "without-check", "Skip build-time tests (not recommended)"
+  keg_only "conflicts with trilinos"
+
+  option "without-test", "Skip build-time tests (not recommended)"
+
+  deprecated_option "without-check" => "without-test"
 
   depends_on "scotch"   => :optional
   depends_on "parmetis" => :optional
@@ -25,8 +32,8 @@ class Zoltan < Formula
       "CC=#{ENV["MPICC"]}",
       "CXX=#{ENV["MPICXX"]}",
     ]
-    args << "--with-scotch"         if build.with? "scotch"
-    args << "--with-parmetis"       if build.with? "parmetis"
+    args << "--with-scotch" if build.with? "scotch"
+    args << "--with-parmetis" if build.with? "parmetis"
     args += ["--enable-f90interface", "FC=#{ENV["MPIFC"]}"] if build.with? :fortran
 
     mkdir "zoltan-build" do
@@ -35,5 +42,34 @@ class Zoltan < Formula
       system "make", "check" if build.with? "check"
       system "make", "install"
     end
+  end
+
+  def caveats;<<-EOS.undent
+    To link against Zoltan, add
+      #{opt_include}
+    to the search path for includes and
+      #{opt_lib}
+    to the library search path.
+    EOS
+  end
+
+  test do
+    (testpath/"test.c").write <<-EOS.undent
+      #include <stdio.h>
+      #include "zoltan.h"
+      int main(int argc, char *argv[])
+      {
+        MPI_Init(NULL, NULL);
+        struct Zoltan_Struct *z = Zoltan_Create(MPI_COMM_SELF);
+        if (!z)
+          return -1;
+        Zoltan_Destroy(&z);
+        MPI_Finalize();
+        printf(\"%f\\n\", ZOLTAN_VERSION_NUMBER);
+        return 0;
+      }
+    EOS
+    system "mpicc", "-I#{opt_include}", "test.c", "-o", "test", "-L#{opt_lib}", "-lzoltan"
+    system "./test"
   end
 end

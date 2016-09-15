@@ -3,13 +3,14 @@ class P4est < Formula
   homepage "http://www.p4est.org"
   url "https://p4est.github.io/release/p4est-1.1.tar.gz"
   sha256 "0b5327a35f0c869bf920b8cab5f20caa4eb55692eaaf1f451d5de30285b25139"
-  revision 1
+  revision 2
 
   bottle do
     cellar :any
-    sha256 "e94aeee5d338f8ca93b8cc810b3ff491df11c39cc40a147dab90f29fcd441721" => :el_capitan
-    sha256 "ee2eb5511d16d6a586ef53f72c54a378ec52f3dbe6af1aa4485ab032290cd57d" => :yosemite
-    sha256 "2ed7ad754a9f7950e578e3e4e443cfd4955037ad057df5ab692cd8cebae35846" => :mavericks
+    rebuild 1
+    sha256 "2b0996c9004c063cf4ef66974a89cc64e407fcb516e50b1da4930f4745c1c108" => :el_capitan
+    sha256 "02f1cdc1676238fc7095802cdb982a52f8d9c42df37878373a52114f417946b6" => :yosemite
+    sha256 "373ab802626785b1f17fdda807ef094cb2e4f654fe3d99318ebbed30823a6d15" => :mavericks
   end
 
   head do
@@ -46,7 +47,7 @@ class P4est < Formula
                           "--prefix=#{prefix}"
 
     system "make"
-    system "make", "check" if build.with? "check"
+    ENV.deparallelize { system "make", "check" } if build.with? "check"
     system "make", "install"
   end
 end

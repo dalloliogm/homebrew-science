@@ -1,19 +1,19 @@
 class Root6 < Formula
   # in order to update, simply change version number and update sha256
-  version_number = "6.06.06"
+  version_number = "6.06.08"
   desc "Object oriented framework for large scale data analysis"
   homepage "https://root.cern.ch"
   url "https://root.cern.ch/download/root_v#{version_number}.source.tar.gz"
   mirror "https://fossies.org/linux/misc/root_v#{version_number}.source.tar.gz"
   version version_number
-  sha256 "0a7d702a130a260c72cb6ea754359eaee49a8c4531b31f23de0bfcafe3ce466b"
+  sha256 "7cb836282014cce822ef589cad27811eb7a86d7fad45a871fa6b0e6319ec201a"
+
   head "http://root.cern.ch/git/root.git"
 
   bottle do
-    sha256 "d13b1010cd307ea8e6d0277e7053a0996946e76735688b283e7ed9ce55ead1cc" => :el_capitan
-    sha256 "07e037676b6942d1359bdebb3d6d21da5bd025ac20cec7419fa36d915c488c15" => :yosemite
-    sha256 "10c2a95b7e3122f86517f8928f50dc0cf602eff8d22f2dd68ea75c631000fc0b" => :mavericks
-    sha256 "f63cd3eea04085528313d291ab22371a3dcc860944771338f7f22d6da6e3a75e" => :x86_64_linux
+    sha256 "17b5f629f0b10ea6ae17d7dc12ebaf081428a422237394694575afb8bd7ac121" => :el_capitan
+    sha256 "446c34bc14b49275c7d7f1dc2d89ee5b328e63890837791f99874f6f74cae765" => :yosemite
+    sha256 "ac65c9ee47d2f23474db1d9fe0a6589b52e5d118aec120aa729eb3988546e0af" => :mavericks
   end
 
   depends_on "cmake" => :build

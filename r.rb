@@ -10,16 +10,17 @@ class R < Formula
   url "https://cran.rstudio.com/src/base/R-3/R-3.3.1.tar.gz"
   mirror "https://cran.r-project.org/src/base/R-3/R-3.3.1.tar.gz"
   sha256 "3dc59ae5831f5380f83c169bac2103ad052efe0ecec4ffa74bde4d85a0fda9e2"
+  revision 2
 
   # Do not remove executable permission from these scripts.
   # See https://github.com/Linuxbrew/linuxbrew/issues/614
   skip_clean "lib/R/bin" unless OS.mac?
 
   bottle do
-    sha256 "ac08e34ccfc063e7c307754da56004aed9de9ff512a5a31ba7f48b220dd19a6a" => :el_capitan
-    sha256 "a63091632f248d5be2444b17eaf3050e124b8cc6cf53d7ab54cfe2d052ca6259" => :yosemite
-    sha256 "ae9f6b850daac46ae8a2a3bc33e13b83ae7b13782dfcfa4a830cf75dfa195a3d" => :mavericks
-    sha256 "39ce8f1b7d2fa5fb3d7f5fbfcd5e55ebe663dfbd747c42781e1f0b699611dc52" => :x86_64_linux
+    sha256 "db82106e4c89d08a9de62e70d1e69522cf668d2a8a5ccc95f7390347c2310e89" => :el_capitan
+    sha256 "ba49ca1352aba22217bcf6433be5938da1c14e98a55da8c4ff2fcc019540c318" => :yosemite
+    sha256 "c888557974a25748dd915f09bdfbb03ddfa10099a121af822dfcc82791f384d1" => :mavericks
+    sha256 "aa943fec8b06fe13a5b9d47f97210d16a1286c6f289b821e203a394358fa0927" => :x86_64_linux
   end
 
   head do
@@ -66,6 +67,9 @@ class R < Formula
       "--with-libintl-prefix=#{Formula["gettext"].opt_prefix}",
       "--enable-memory-profiling",
     ]
+
+    # don't remember Homebrew's sed shim
+    args << "SED=/usr/bin/sed" if File.exist?("/usr/bin/sed")
 
     if OS.linux?
       args << "--libdir=#{lib}" # avoid using lib64 on CentOS

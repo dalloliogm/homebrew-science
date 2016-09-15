@@ -1,21 +1,23 @@
 class Dealii < Formula
   desc "open source finite element library"
   homepage "http://www.dealii.org"
-  url "https://github.com/dealii/dealii/releases/download/v8.4.1/dealii-8.4.1.tar.gz"
-  sha256 "00a0e92d069cdafd216816f1aff460f7dbd48744b0d9e0da193287ebf7d6b3ad"
+  url "https://github.com/dealii/dealii/releases/download/v8.4.2/dealii-8.4.2.tar.gz"
+  sha256 "ec7c00fadc9d298d1a0d16c08fb26818868410a9622c59ba624096872f3058e4"
+  revision 1
 
-  head do
-    url "https://github.com/dealii/dealii.git"
-  end
+  head "https://github.com/dealii/dealii.git"
 
   bottle do
     cellar :any
-    sha256 "592e2da96fcc9455cbacb2b12b446cab20fe9fc32dceea6e9412641339107e05" => :el_capitan
-    sha256 "75b52df3214c1a6e9202ecfc301e03520152bfe3b407b45d2544ed066f2296dc" => :yosemite
-    sha256 "d848dbc4d52e2ade5661ec076d90de3853ae7fcdcec17142992677caf6d770f2" => :mavericks
+    sha256 "7a5e4202b297229d2e67ec4ee2c494da63dd5ce38b26521a30320dddc0b1bc52" => :el_capitan
+    sha256 "d941726f8f0c635044ee719c152661a9367bbb8031ff93d21f8f4ded0fbd4001" => :yosemite
+    sha256 "1b1b2ff2ac271f185f4b7ba580eef3041afc302ca24b5b6f034936112f4fbba7" => :mavericks
   end
 
   option "with-testsuite", "Run full test suite (7000+ tests). Takes a lot of time."
+  option "without-oce", "Build without oce support (conflicts with opencascade)"
+
+  deprecated_option "without-opencascade" => "without-oce"
 
   depends_on "cmake"        => :run
   depends_on :mpi           => [:cc, :cxx, :f90, :recommended]
@@ -31,7 +33,7 @@ class Dealii < Formula
   depends_on "metis"        => :recommended
   depends_on "muparser"     => :recommended if MacOS.version != :mountain_lion # Undefined symbols for architecture x86_64
   depends_on "netcdf"       => [:recommended, "with-fortran", "with-cxx-compat"]
-  depends_on "opencascade"  => :recommended
+  depends_on "oce"          => :recommended
   depends_on "p4est"        => [:recommended] + openblasdep if build.with? "mpi"
   depends_on "parmetis"     => :recommended if build.with? "mpi"
   depends_on "petsc"        => [:recommended] + openblasdep
@@ -41,15 +43,9 @@ class Dealii < Formula
   depends_on "trilinos"     => [:recommended] + openblasdep
 
   needs :cxx11
+
   def install
     ENV.cxx11
-
-    # PETSc 3.7.x added a parameter to PetscOptionsSetValue()
-    # https://bitbucket.org/petsc/petsc/src/5d547b27bccc01eacb9fc0eef6ae71e85dce2b0c/src/sys/objects/options.c?at=master&fileviewer=file-view-default#options.c-1078
-    # See upstream PR: https://github.com/dealii/dealii/pull/2327
-    inreplace "source/lac/petsc_precondition.cc",
-      "PetscOptionsSetValue(\"",
-      "PetscOptionsSetValue(NULL,\""
 
     args = %W[
       -DCMAKE_BUILD_TYPE=DebugRelease
@@ -85,7 +81,7 @@ class Dealii < Formula
     args << "-DMETIS_DIR=#{Formula["metis"].opt_prefix}" if build.with? "metis"
     args << "-DMUPARSER_DIR=#{Formula["muparser"].opt_prefix}" if build.with? "muparser"
     args << "-DNETCDF_DIR=#{Formula["netcdf"].opt_prefix}" if build.with? "netcdf"
-    args << "-DOPENCASCADE_DIR=#{Formula["opencascade"].opt_prefix}" if build.with? "opencascade"
+    args << "-DOPENCASCADE_DIR=#{Formula["oce"].opt_prefix}" if build.with? "oce"
     args << "-DP4EST_DIR=#{Formula["p4est"].opt_prefix}" if build.with? "p4est"
     args << "-DPETSC_DIR=#{Formula["petsc"].opt_prefix}" if build.with? "petsc"
     args << "-DSLEPC_DIR=#{Formula["slepc"].opt_prefix}" if build.with? "slepc"

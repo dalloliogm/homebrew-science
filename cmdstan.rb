@@ -2,14 +2,14 @@ class Cmdstan < Formula
   desc "Probabilistic programming for Bayesian inference"
   homepage "http://mc-stan.org/"
   # tag "math"
-  url "https://github.com/stan-dev/cmdstan/releases/download/v2.9.0/cmdstan-2.9.0.tar.gz"
-  sha256 "a9f2858caa5b55576da85ef31b4eae632c97837aa042514242a9aad7ada97121"
+  url "https://github.com/stan-dev/cmdstan/releases/download/v2.12.0/cmdstan-2.12.0.tar.gz"
+  sha256 "717fbc25fbf10db6e6315f4cdd74f38d32afaf153bbdade259bf838deb6af774"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "3ee64fee0948484120ae2ff14576f976b4e233fd2d414e97fa69570492bd27da" => :el_capitan
-    sha256 "d1df4ea1a14a468d5c2b55af236aab17bfccc082ea42819a5ca3f3dd88b8bbf1" => :yosemite
-    sha256 "c8ab9271b2dc61c569f7a169dc6e70e0d71bee0d36eceed87469075a7e5acc41" => :mavericks
+    sha256 "75538df8ec99755e33b9879842de494fdecd208f18602d7c4f631240a808a43a" => :el_capitan
+    sha256 "0024521d7c3d07bde130af4020ade2ce82c762430d4e8cb1405f6fa9b87298bc" => :yosemite
+    sha256 "ee1ddf61fe69f0fce9312250883581db347ec442f2408c52ad9d9509fec1900f" => :mavericks
   end
 
   depends_on "boost"
@@ -59,17 +59,20 @@ class Cmdstan < Formula
     # build executables for specific Stan models.
     lib.install Dir["lib/*"]
 
-    # Install docs
-    doc.install "CONTRIBUTING.md", "LICENSE", "README.md"
-
     # For the standard stan make system to work we also need the following files in prefix:
-    prefix.install "src", "makefile", "make", "stan_2.9.0", "examples"
+    prefix.install "src", "makefile", "make", "stan_#{version}", "examples"
   end
 
   test do
-    system "#{bin}/stanc", "--version"
-    cp prefix/"examples/bernoulli/bernoulli.stan", "."
-    system "#{bin}/stanc", "bernoulli.stan"
-    system "make", "bernoulli_model.o", "CPPFLAGS=-I#{Formula["eigen"].include/"eigen3"} -I#{prefix}/stan_2.9.0/src -I#{prefix}/stan_2.9.0/lib/stan_math_2.9.0"
+    system bin/"stanc", "--version"
+    cp prefix/"examples/bernoulli/bernoulli.stan", testpath
+    system bin/"stanc", "bernoulli.stan"
+    math = prefix/"stan_#{version}/lib/stan_math_#{version}"
+    libraries = File.read(math/"make/libraries")
+    cvodes = libraries.match(%r{(lib\/cvodes_([0-9\.]+))\n})[1]
+    ENV["CPPFLAGS"] = %W[-I#{prefix}/stan_#{version}/src
+                         -I#{math} -I#{math}/#{cvodes}/include
+                         -I#{Formula["eigen"].include/"eigen3"}].join(" ")
+    system "make", "bernoulli_model.o"
   end
 end

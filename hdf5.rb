@@ -1,15 +1,14 @@
 class Hdf5 < Formula
   desc "File format designed to store large amounts of data"
   homepage "http://www.hdfgroup.org/HDF5"
-  url "https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.16/src/hdf5-1.8.16.tar.bz2"
-  sha256 "13aaae5ba10b70749ee1718816a4b4bfead897c2fcb72c24176e759aec4598c6"
-  revision 1
+  url "https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.17/src/hdf5-1.8.17.tar.bz2"
+  sha256 "fc35dd8fd8d398de6b525b27cc111c21fc79795ad6db1b1f12cb15ed1ee8486a"
 
   bottle do
-    sha256 "3ef70c3ba3d08e2e14f055d9fb3af6368a8cb3d9a825634fb30b83c66d648b1b" => :el_capitan
-    sha256 "1fe2487ac2e3160509cd10c26437c278b9be713fd318a49982aa38d167cb65a7" => :yosemite
-    sha256 "c09c07bff0b22f1838b51f2eb0e70ccf04be903f6b3821fc7d26403f161f4cc5" => :mavericks
-    sha256 "02edbe982c3021b7f7653a4938965e4240ce6bba124f687c07767b129cd22222" => :x86_64_linux
+    rebuild 1
+    sha256 "3d6b60b56633ecc509acd399971c31110c5b5cc5860a72ecb7c356cc5e162996" => :el_capitan
+    sha256 "a4c0921b63aba820480a2da1c96e898e583d43bf09468395a760d81d5c770dc6" => :yosemite
+    sha256 "d42f35bc72ff2eecfc6a7c78a7ca6b76f8e319d312771f96d5d78f2e93889eaa" => :mavericks
   end
 
   deprecated_option "enable-fortran" => "with-fortran"
@@ -17,9 +16,10 @@ class Hdf5 < Formula
   deprecated_option "enable-parallel" => "with-mpi"
   deprecated_option "enable-fortran2003" => "with-fortran2003"
   deprecated_option "enable-cxx" => "with-cxx"
+  deprecated_option "with-check" => "with-test"
 
   option :universal
-  option "with-check", "Run build-time tests"
+  option "with-test", "Run build-time tests"
   option "with-threadsafe", "Trade performance for C API thread-safety"
   option "with-fortran2003", "Compile Fortran 2003 bindings (requires --with-fortran)"
   option "with-mpi", "Compile with parallel support (unsupported with thread-safety)"
@@ -32,8 +32,20 @@ class Hdf5 < Formula
   depends_on :mpi => [:optional, :cc, :cxx, :f90]
   depends_on "zlib" unless OS.mac?
 
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
+  depends_on "libtool" => :build
+
   def install
     ENV.universal_binary if build.universal?
+
+    inreplace %w[c++/src/h5c++.in fortran/src/h5fc.in tools/misc/h5cc.in],
+      "${libdir}/libhdf5.settings", "#{pkgshare}/libhdf5.settings"
+
+    inreplace "src/Makefile.am", "settingsdir=$(libdir)",
+                                 "settingsdir=#{pkgshare}"
+
+    system "autoreconf", "-fiv"
 
     args = %W[
       --prefix=#{prefix}
@@ -70,7 +82,7 @@ class Hdf5 < Formula
 
     system "./configure", *args
     system "make"
-    system "make", "check" if build.with?("check") || build.bottle?
+    system "make", "check" if build.with?("test") || build.bottle?
     system "make", "install"
   end
 

@@ -3,14 +3,15 @@ class Scalapack < Formula
   homepage "http://www.netlib.org/scalapack/"
   url "http://www.netlib.org/scalapack/scalapack-2.0.2.tgz"
   sha256 "0c74aeae690fe5ee4db7926f49c5d0bb69ce09eea75beb915e00bba07530395c"
-  revision 6
+  revision 7
+
   head "https://icl.cs.utk.edu/svn/scalapack-dev/scalapack/trunk", :using => :svn
 
   bottle do
     cellar :any
-    sha256 "fec811b3194d0e5d314dfe07697687cab775f19a4f5ca5a83e541b9d55b9f8de" => :el_capitan
-    sha256 "27ecfd322b105fa9244e845906273220919c93fe9e00493e38c3d3c48fac937d" => :yosemite
-    sha256 "1176f3a88c9a60b17de132d2d8d576e456d668246615e210e96c1d7b6fc5376b" => :mavericks
+    sha256 "4acfb5c2d1979bee44ec79371215cdc3173ace8100e87442b989198345a1436b" => :el_capitan
+    sha256 "417487f2452d2e9ad500702b09522e88ba6f39b7ec8d1f8bf25b86c4186ba637" => :yosemite
+    sha256 "a6c491eefc1456a555af7918469836110ee969920280fa41adaf10808b7db9b9" => :mavericks
   end
 
   option "without-test", "Skip build-time tests (not recommended)"

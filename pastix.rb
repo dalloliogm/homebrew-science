@@ -1,14 +1,17 @@
 class Pastix < Formula
+  desc "Parallel solver for sparse linear systems based on direct methods"
   homepage "http://pastix.gforge.inria.fr"
   url "https://gforge.inria.fr/frs/download.php/file/35070/pastix_5.2.2.22.tar.bz2"
   sha256 "30f771a666719e6b116f549a6e4da451beabab99c2ecabc0745247c3654acbed"
+  revision 2
+
   head "git://scm.gforge.inria.fr/ricar/ricar.git"
 
   bottle do
     cellar :any
-    sha256 "5e869942f2f3135a2f30904562da41499ed4ea37e79977937e3f16427cf36338" => :el_capitan
-    sha256 "4d73dd7b0e1178d70e7735985a2bc2f5644c69d7affb0baceb2d2a196cbb13ef" => :yosemite
-    sha256 "587c476096843035bc9f7b548b9515013f4cf85e382c00f4773bbb41aaa020ca" => :mavericks
+    sha256 "8cabeb3fa4157bda56c4895212feb6b15c10e9996388180fe9c3f9703143e463" => :el_capitan
+    sha256 "a9ce2368273b3d5fbddb9db328d0b5b91337325e89032be718b425d1d48129ea" => :yosemite
+    sha256 "52d8bc960f44d3a9a40e35ebaf05748f052ebb8102e66623deff2969f148d937" => :mavericks
   end
 
   depends_on "scotch"
@@ -18,6 +21,7 @@ class Pastix < Formula
 
   depends_on :mpi       => [:cc, :cxx, :f90]
   depends_on :fortran
+  depends_on "gcc"
 
   def install
     ENV.deparallelize
@@ -31,7 +35,7 @@ class Pastix < Formula
         s.change_make_var! "MCFPROG",   ENV["MPIFC"]
         s.change_make_var! "MPCCPROG",  ENV["MPICC"]
         s.change_make_var! "MPCXXPROG", ENV["MPICXX"]
-        s.change_make_var! "VERSIONBIT", ((MacOS.prefer_64_bit?) ? "_64bit" : "_32bit")
+        s.change_make_var! "VERSIONBIT", MacOS.prefer_64_bit? ? "_64bit" : "_32bit"
 
         libgfortran = `#{ENV["MPIFC"]} --print-file-name libgfortran.a`.chomp
         s.change_make_var! "EXTRALIB", "-L#{File.dirname(libgfortran)} -lgfortran -lm"

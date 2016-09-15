@@ -1,13 +1,13 @@
 class Gdcm < Formula
   desc "Grassroots DICOM library and utilities for medical files"
   homepage "http://sourceforge.net/projects/gdcm/"
-  url "https://downloads.sourceforge.net/project/gdcm/gdcm%202.x/GDCM%202.6.4/gdcm-2.6.4.tar.bz2"
-  sha256 "b116dc0b0e9f65dcd2196fa55d8815be215065ec537b15665afde0469bd47e91"
+  url "https://downloads.sourceforge.net/project/gdcm/gdcm%202.x/GDCM%202.6.5/gdcm-2.6.5.tar.bz2"
+  sha256 "2278fab65997fa90fd17dec13e5048b09075ebba07a7d77783bc5d35c5682db8"
 
   bottle do
-    sha256 "c8e4782e8886dfc4597aee44da3bd6a6efab9870e7fdf7359f724ad713ebf640" => :el_capitan
-    sha256 "6e328ee07ff1ddc45fc223a3613cab3cdb3c48d8eb748eb1b749bc909ac66b2a" => :yosemite
-    sha256 "0835c73b1165a337be20a55ee0a360987643fb3db4b81876f55dc5a82829f88b" => :mavericks
+    sha256 "fa4b641addcbbc6c0b35baf0c35dce2b426c8f43ac64e69d6139acacd0e014c7" => :el_capitan
+    sha256 "442a330bd1b62a8bd20f0be5d92b2270e4f1f8c8206d68b48bebf0bbee97a9c0" => :yosemite
+    sha256 "0b305b8b18e1db600eb38519482e642c94c90898fcde1999e0a0c821b1d70ead" => :mavericks
   end
 
   option "with-check", "Run the GDCM test suite"

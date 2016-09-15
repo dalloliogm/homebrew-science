@@ -1,15 +1,15 @@
 class Moose < Formula
   desc "Multiscale Object Oriented Simulation Environment"
   homepage "http://moose.ncbs.res.in"
-  url "https://github.com/BhallaLab/moose-core/archive/ghevar_3.0.2-beta.3.tar.gz"
-  version "3.0.2"
-  sha256 "ad8e7b50874b35190aa5cfdbf0bccaacba241ff19f4d12708f115816cc391b35"
+  url "https://github.com/BhallaLab/moose-core/archive/3.1.0.tar.gz"
+  sha256 "3914535e9554473ee629289de1281aab95f85cc27b6602c26f01a46f6ccec968"
+  head "https://github.com/BhallaLab/moose-core.git"
 
   bottle do
     cellar :any
-    sha256 "ce480a1c0d53faa57fe8175784b8c2c10fae4b2fd09f68f376f3ff7d28c9415a" => :el_capitan
-    sha256 "58fa41109b47d9c0d9c807105facf8bb3c8fa15f520372e6a8f546b306245da3" => :yosemite
-    sha256 "ac9e155cf13f857df151e4004cba0ee3f9ea27a8a4250f5003f34b179b6a41e8" => :mavericks
+    sha256 "b4a3aabccfbb20a4c8ff870a945ae5c6b6d1301926efc8bf56f1152553bd5d71" => :el_capitan
+    sha256 "cf91cc7c5d8a11f4369c2ae731e37101fc15e2f053d2b08994496a5977cd236d" => :yosemite
+    sha256 "481739080d78790db5e8c81089c73f50695d372c16a945ef2e5e585024184852" => :mavericks
   end
 
   option "with-gui", "Enable gui support"
@@ -44,6 +44,9 @@ class Moose < Formula
   end
 
   def install
+    # FindHDF5.cmake needs a little help
+    ENV.prepend "LDFLAGS", "-lhdf5 -lhdf5_hl"
+
     args = std_cmake_args
     if build.with?("sbml")
       resource("sbml").stage do

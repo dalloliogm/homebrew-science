@@ -3,14 +3,15 @@ class Nixio < Formula
   homepage "http://www.g-node.org/nix"
   url "https://github.com/G-Node/nix/archive/1.1.0.tar.gz"
   sha256 "d607d96117621e5cc563002c4c161913d95db36eeb7c4e6f51afca5f6b788fcc"
+  revision 3
 
   head "https://github.com/G-Node/nix.git"
 
   bottle do
     cellar :any
-    sha256 "9cb0f5f3b4d25e4e53bee32223b97ded9bfe4ee5763954b2a4415655f968a678" => :el_capitan
-    sha256 "642a99210080298f004546242334f1d43caedaba0b5c1aeee79c697b28f6317b" => :yosemite
-    sha256 "34b92b846c587d96b58a2dbcbf52c77d01955e0d27c921c62bd019371a2010a8" => :mavericks
+    sha256 "fedfe2338978e3a0512a235420e121da1ccf2d31fcee3dc55f6f2c009cf324e1" => :el_capitan
+    sha256 "4c2152eb4c59383098d7ac205de4a6329106d53fb3b26de428af413daa0fadfc" => :yosemite
+    sha256 "27e17c6bfbcc4322109d105139ebfaf5bbf95dceb7d4f6b243fc93172044a486" => :mavericks
   end
 
   depends_on "cmake" => :build
@@ -32,6 +33,9 @@ class Nixio < Formula
 
   def install
     ENV.cxx11
+
+    # https://github.com/G-Node/nix/pull/622
+    inreplace "CMakeLists.txt", "(nix CXX)", "(nix C CXX)" unless build.head?
 
     system "cmake", ".", *std_cmake_args
     system "make"
