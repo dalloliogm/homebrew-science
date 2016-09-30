@@ -1,15 +1,14 @@
 class Abinit < Formula
   desc "Atomic-scale first-principles simulation software"
   homepage "http://www.abinit.org"
-  url "http://ftp.abinit.org/abinit-8.0.7.tar.gz"
-  sha256 "9df2fe572af39cef937a4134d569321b99c6670f187edbac9b355ff2defd5afc"
-  revision 3
+  url "http://ftp.abinit.org/abinit-8.0.8b.tar.gz"
+  sha256 "37ad5f0f215d2a36e596383cb6e54de3313842a0390ce8d6b48a423d3ee25af2"
 
   bottle do
     cellar :any
-    sha256 "8079826fc1b9df6f4b721c38b401e1fe1bc1721113c44f2502258e91efba391b" => :el_capitan
-    sha256 "7c043dbf26c0386e09ebc1d2012b7f81d46ecbf46a89d4f8a7534f410f63f11c" => :yosemite
-    sha256 "9b01ac42edb80eb1eb2c6afc9567c57775664796b34759778fd9898a32cf4f1c" => :mavericks
+    sha256 "b46db1ea06e1e6146980d52d8db1f397f488d6f28ca01562c20111cda83240dc" => :sierra
+    sha256 "7d7cd518243afe3dcee0fa5c3aa51bd553245db1a0f24da4d6125f6e08b5e3fa" => :el_capitan
+    sha256 "69f790dd1910e514e22c586bda90903fc99afda5432671f0960de2dc53083259" => :yosemite
   end
 
   option "without-test", "Skip build-time tests (not recommended)"

@@ -4,14 +4,14 @@ class Vtk < Formula
   url "http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz"
   mirror "https://fossies.org/linux/misc/VTK-7.0.0.tar.gz"
   sha256 "78a990a15ead79cdc752e86b83cfab7dbf5b7ef51ba409db02570dbdd9ec32c3"
-  revision 3
+  revision 4
 
   head "https://github.com/Kitware/VTK.git"
 
   bottle do
-    sha256 "dbdd618e3a16ed47b64df25a611bf95e03459957753adcb315e51dc7bf565c19" => :el_capitan
-    sha256 "430315928aaad5502eb6165995c937c2eb99578a95fa0fe405bf5d6a3632cfd4" => :yosemite
-    sha256 "d33f0bcd98119786071be10e5352e75c3b7006d8f72d6deeef5be6659f4aff13" => :mavericks
+    sha256 "f7031864411085d53375c64aa99b49ae66c3a1e641ae0ebb4b3f4b59f88c1d76" => :sierra
+    sha256 "42e8e78347b7aa3fc787314a153151a5a6865522aad8f71e50bf4298e06b347e" => :el_capitan
+    sha256 "157a9c05cb589ba199ae97cbf9d3d79201299d66a137f85b7f7e5ec8cb395fa9" => :yosemite
   end
 
   deprecated_option "examples" => "with-examples"
@@ -151,6 +151,45 @@ class Vtk < Formula
     pkgshare.install "Examples" if build.with? "examples"
   end
 
+  def post_install
+    # This is a horrible, horrible hack because VTK's build system links
+    # directly against libpython, breaking all installs for users of brewed
+    # Python. See tracking issues:
+    #
+    # https://github.com/Homebrew/homebrew-science/pull/3811
+    # https://github.com/Homebrew/homebrew-science/issues/3401
+    # https://gitlab.kitware.com/vtk/vtk/merge_requests/1713
+    #
+    # This postinstall block should be removed once upstream issues a fix.
+    return unless OS.mac? && build.with?("python")
+    # Detect if we are using brewed Python 2
+    python = Formula["python"]
+    brewed_python = python.opt_frameworks/"Python.framework"
+    system_python = "/System/Library/Frameworks/Python.framework"
+    if python.linked_keg.exist?
+      ohai "Patching VTK to use Homebrew's Python 2"
+      from = system_python
+      to = brewed_python
+    else
+      ohai "Patching VTK to use system Python 2"
+      from = brewed_python
+      to = system_python
+    end
+
+    # Patch it all up
+    keg = Keg.new(prefix)
+    keg.mach_o_files.each do |file|
+      file.ensure_writable do
+        keg.each_install_name_for(file) do |old_name|
+          next unless old_name.start_with? from
+          new_name = old_name.sub(from, to)
+          puts "#{file}:\n  #{old_name} => #{new_name}" if ARGV.verbose?
+          keg.change_install_name(old_name, new_name, file)
+        end
+      end
+    end
+  end
+
   def caveats
     s = ""
     s += <<-EOS.undent
@@ -158,14 +197,22 @@ class Vtk < Formula
         from python. Alternatively, you can integrate the RenderWindowInteractor
         in PyQt, PySide, Tk or Wx at runtime. Read more:
             import vtk.qt4; help(vtk.qt4) or import vtk.wx; help(vtk.wx)
-
     EOS
 
     if build.with? "examples"
       s += <<-EOS.undent
 
         The scripting examples are stored in #{HOMEBREW_PREFIX}/share/vtk
+      EOS
+    end
 
+    if build.with? "python"
+      s += <<-EOS.undent
+
+        VTK was linked against #{Formula["python"].linked_keg.exist? ? "Homebrew's" : "your system"} copy of Python.
+        If you later decide to change Python installations, relink VTK with:
+
+          brew postinstall vtk
       EOS
     end
     s.empty? ? nil : s
@@ -178,7 +225,7 @@ class Vtk < Formula
         int main(int, char *[])
         {
           assert (vtkVersion::GetVTKMajorVersion()==7);
-          assert (vtkVersion::GetVTKMinorVersion()==1);
+          assert (vtkVersion::GetVTKMinorVersion()==0);
           return EXIT_SUCCESS;
         }
       EOS

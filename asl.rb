@@ -3,12 +3,13 @@ class Asl < Formula
   homepage "http://www.ampl.com"
   url "https://github.com/ampl/mp/archive/3.1.0.tar.gz"
   sha256 "587c1a88f4c8f57bef95b58a8586956145417c8039f59b1758365ccc5a309ae9"
+  revision 1
 
   bottle do
     cellar :any
-    sha256 "871a2da89b0e728feccfaa4334145f37a39b29a02dbfc6fd7a81f7d993979acb" => :el_capitan
-    sha256 "253f89694d8eace41ae1705415629f0b1d7e2a9b0d124472c5530fe2385f83d7" => :yosemite
-    sha256 "4cdd2255de6dc86dd59068558dbd492823ef9bb6025bf27ff19014a3df89f6a1" => :mavericks
+    sha256 "d017b21e844f283ff93005b373303ea0dba8687f5df88d59a1ff94db1e3103a6" => :sierra
+    sha256 "251f1ea420b39ba36b960684ad201d0bb0f1764e3b3b8459efe06f6e2c8c2bba" => :el_capitan
+    sha256 "eae46d7447404c3a38d041a619b423c195a5533e39d32fa06c6a377b544b534f" => :yosemite
   end
 
   option "with-matlab", "Build MEX files for use with Matlab"
@@ -32,6 +33,7 @@ class Asl < Formula
     system "cmake", ".", *cmake_args
     system "make", "all"
     system "make", "test" if build.with? "test"
+    system "install_name_tool", "-change", "@rpath/libmp.3.dylib", lib/"libmp.dylib", "bin/libasl.dylib"
     system "make", "install"
     mkdir libexec
     mv bin, libexec/"bin"

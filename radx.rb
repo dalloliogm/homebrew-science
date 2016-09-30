@@ -1,17 +1,15 @@
 class Radx < Formula
   desc "Software package for radial radar data"
   homepage "https://www.ral.ucar.edu/projects/titan/docs/radial_formats/radx.html"
-  url "https://www.eol.ucar.edu/system/files/software/radx/all-oss/radx-20160327.src_.tgz"
-  mirror "ftp://ftp.rap.ucar.edu/pub/titan/radx/previous_releases/radx-20160327.src.tgz"
-  version "20160327"
-  sha256 "3535a724170b06360c8b187ae330c064898bc72e98b839e215c6cffa8b6f2294"
-  revision 1
+  url "https://www.eol.ucar.edu/system/files/software/radx/all-oss/radx-20160809.src_.tgz"
+  version "20160809"
+  sha256 "a071146df16b8abf926d35be4bc7d06b9204feeba8bbc8772858a7805bc5b92a"
 
   bottle do
     cellar :any
-    sha256 "8afbb1c3e0c04290a56e3ced7e313aaf1ace8e1a2f6a5a3a5b89cfd46f837d32" => :el_capitan
-    sha256 "5edd71a1f53fd09ad34f8c8c9b6b3867ac77da52427166b1ea2514a3bd8b93ca" => :yosemite
-    sha256 "575425f11e273256da4e1179e2d05466f0f4ecfe6051a7b02d1d9377cf8a082b" => :mavericks
+    sha256 "a2a6404e674bd9418928f83dd7e8f59c9ae40a2fffec482bb1827ec148a6b8c1" => :sierra
+    sha256 "5b86c9a1eac87b9510696258ba6f326227b0524b71abeb67b59474326bfeee41" => :el_capitan
+    sha256 "975fe58f86427c5519a8eb1d9d7db2ee6c8d524917d39ab312b3f447382ed52a" => :yosemite
   end
 
   depends_on "hdf5"

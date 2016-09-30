@@ -3,14 +3,14 @@ class Nest < Formula
   homepage "http://www.nest-simulator.org/"
   url "https://github.com/nest/nest-simulator/releases/download/v2.10.0/nest-2.10.0.tar.gz"
   sha256 "2b6fc562cd6362e812d94bb742562a5a685fb1c7e08403765dbe123d59b0996c"
-  revision 2
+  revision 3
 
   head "https://github.com/nest/nest-simulator.git"
 
   bottle do
-    sha256 "01cd751a72d8bd55fcc682d6314949148c8cb0bd7d4cd1a94dcabd1533f9a10a" => :el_capitan
-    sha256 "6b2d96780f21587251abddfb53335ab90de752c898270b8f52611484cd441146" => :yosemite
-    sha256 "b555bac1f34d3c99f6fc8edf645749c39968b1f69b4e7a906de18efcf0ff673c" => :mavericks
+    sha256 "1d445257846c9b46d8bbc18fd78a397323ec5666bb27e0e9769ef33a01f6effc" => :sierra
+    sha256 "a11d6081904bf50de77b184b9146257c472b266da6b5ea4f05a70ddcd68fd5a7" => :el_capitan
+    sha256 "b477d20586f143fd4cc7967c1006670b9aac9edbc96c13b9653fc4342e76535f" => :yosemite
   end
 
   stable do

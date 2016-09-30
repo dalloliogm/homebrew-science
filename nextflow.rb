@@ -1,17 +1,17 @@
 class Nextflow < Formula
   desc "Data-driven computational pipelines"
-  homepage "http://www.nextflow.io/"
+  homepage "https://www.nextflow.io/"
   # doi "10.6084/m9.figshare.1254958"
   # tag "bioinformatics"
 
-  url "http://www.nextflow.io/releases/v0.21.3/nextflow"
-  version "0.21.3"
-  sha256 "f8cc0b166aa79cc01178f123da281fcd36cc8388c1866deec9ac577f1d2aaa9a"
+  url "https://www.nextflow.io/releases/v0.22.1/nextflow"
+  version "0.22.1"
+  sha256 "78798f05be57d64c84287d8a817fc489b93132535580620e25adc86271bc239e"
   head "https://github.com/nextflow-io/nextflow.git"
 
   bottle :unneeded
 
-  depends_on :java => "1.7+"
+  depends_on java: "1.7+"
 
   def install
     bin.install "nextflow"

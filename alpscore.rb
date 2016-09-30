@@ -1,17 +1,15 @@
 class Alpscore < Formula
   desc "Applications and Libraries for Physics Simulations"
   homepage "http://alpscore.org"
-  url "https://github.com/ALPSCore/ALPSCore/archive/v0.5.4.tar.gz"
-  sha256 "909e6a06673e7fa0d6c985f46ecf0090ca7a5ff682002fe63b0270c578ca3b82"
-  revision 3
-
+  url "https://github.com/ALPSCore/ALPSCore/archive/v0.5.5.tar.gz"
+  sha256 "23612813734e6bf8c3fdabd58f6d71cebbe9e9cbfec80e84880099761789dbc7"
   head "https://github.com/ALPSCore/ALPSCore.git"
 
   bottle do
     cellar :any
-    sha256 "bd78edbcdaad1e83eb18f8dd92ef4d54d47eaabe5a73fb25e9e1a28d43fa9c5a" => :el_capitan
-    sha256 "a572b4fd2ea7e97cfff8431e7260eaefe5cd0e0cce65e31b3df50c44bf46a785" => :yosemite
-    sha256 "0b9af7a91b8f9363b159bc4dae10b7bdfa521853ff79f9580bb772b68695ba8e" => :mavericks
+    sha256 "596fec4526c2da6ced5d5eea1faa258bca70babde767d229132e9a991f9de199" => :el_capitan
+    sha256 "bc752627b91140b55c3c10dc4bcb78229e651b1b068a321ed9e96b5bcc9bd6b3" => :yosemite
+    sha256 "a4760d15227341ea0ea77e2a7170ed9da50622cf87ba1acf8dbf0fa2957e7791" => :mavericks
   end
 
   option :cxx11

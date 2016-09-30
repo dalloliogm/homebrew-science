@@ -10,17 +10,16 @@ class R < Formula
   url "https://cran.rstudio.com/src/base/R-3/R-3.3.1.tar.gz"
   mirror "https://cran.r-project.org/src/base/R-3/R-3.3.1.tar.gz"
   sha256 "3dc59ae5831f5380f83c169bac2103ad052efe0ecec4ffa74bde4d85a0fda9e2"
-  revision 2
+  revision 3
 
   # Do not remove executable permission from these scripts.
   # See https://github.com/Linuxbrew/linuxbrew/issues/614
   skip_clean "lib/R/bin" unless OS.mac?
 
   bottle do
-    sha256 "db82106e4c89d08a9de62e70d1e69522cf668d2a8a5ccc95f7390347c2310e89" => :el_capitan
-    sha256 "ba49ca1352aba22217bcf6433be5938da1c14e98a55da8c4ff2fcc019540c318" => :yosemite
-    sha256 "c888557974a25748dd915f09bdfbb03ddfa10099a121af822dfcc82791f384d1" => :mavericks
-    sha256 "aa943fec8b06fe13a5b9d47f97210d16a1286c6f289b821e203a394358fa0927" => :x86_64_linux
+    sha256 "c80531664f2a61b289d61f7dc22f19a36a5d3d56d4815d56d051d8185a275b69" => :sierra
+    sha256 "407f062250bd7f0111973899cd5956e63e4874298565b391bf52977d9996e635" => :el_capitan
+    sha256 "8a203bf349bd770692762f6acceec7c2e2ed1aa6d5410278cec1c49fc5a89c26" => :yosemite
   end
 
   head do
@@ -59,6 +58,11 @@ class R < Formula
   patch :DATA
 
   def install
+    # Fix dyld: lazy symbol binding failed: Symbol not found: _clock_gettime
+    if MacOS.version == "10.11" && MacOS::Xcode.installed? && MacOS::Xcode.version >= "8.0"
+      ENV["ac_cv_have_decl_clock_gettime"] = "no"
+    end
+
     # Fix cairo detection with Quartz-only cairo
     inreplace ["configure", "m4/cairo.m4"], "cairo-xlib.h", "cairo.h"
 

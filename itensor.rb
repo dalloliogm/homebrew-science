@@ -1,15 +1,15 @@
 class Itensor < Formula
   desc "C++ library for implementing tensor product wavefunction calculations"
   homepage "http://itensor.org/"
-  url "https://github.com/ITensor/ITensor/archive/v2.0.10.tar.gz"
-  sha256 "3b5e829362ecfc6984227baa0cfbd5ef4aec45334bfb8cdda3cc7aa88c109ddb"
+  url "https://github.com/ITensor/ITensor/archive/v2.0.11.tar.gz"
+  sha256 "07c4cc4a0c7c3fa2832f249ce5d1d81ffc66a28deb8b53e03dc00c76431262e5"
   head "https://github.com/ITensor/ITensor.git"
 
   bottle do
     cellar :any
-    sha256 "9b1735cc1ca66d95b98b127471ca898d5fd9cbfe212cae444ef65a6efe604cf2" => :el_capitan
-    sha256 "4e6b3c30fbeaa8e62306fb41a6881c23fa9416a4e9229a0eb3de998fda65a705" => :yosemite
-    sha256 "3ac47b1e2e86069285083cbbe4a3f723e794f38ec3ed395238b4458a3e78f29e" => :mavericks
+    sha256 "3a9d5184cd98a27afc9a2cfab5219b760842dc0f7db6e85fcffb3efaf1196d66" => :sierra
+    sha256 "439d0509cf565f1fa4c0e3180320c5d8580c53b7ce8b8618c36b290c6523b5d3" => :el_capitan
+    sha256 "903a3f2dc410cdcf85d9bcd7a4694c46f0cd49c58931fa102849a1c60a9557f7" => :yosemite
   end
 
   depends_on "openblas" => (OS.mac? ? :optional : :recommended)
@@ -87,6 +87,16 @@ class Itensor < Formula
   end
 
   test do
+    if build.with? "openblas"
+      openblas_dir = Formula["openblas"].opt_prefix
+      blas_lapack_flags = ["-I#{openblas_dir}/include", "-DHAVE_LAPACK_CONFIG_H", "-DLAPACK_COMPLEX_STRUCTURE",
+                           "-lpthread", "-L#{openblas_dir}/lib", "-lopenblas"]
+    elsif OS.mac?
+      blas_lapack_flags = ["-framework", "Accelerate"]
+    else
+      blas_lapack_flags = ["-llapack", "-lblas"]
+    end
+
     (testpath/"test.cc").write <<-EOS.undent
       #include "itensor/all.h"
       using namespace itensor;
@@ -97,7 +107,8 @@ class Itensor < Formula
           return 0;
       }
     EOS
-    system ENV.cxx, "-std=c++11", "test.cc", "-o", "test", "-I#{include}", "-L#{lib}", "-litensor"
+    system ENV.cxx, "-std=c++11", "test.cc", "-o", "test",
+        "-I#{include}", "-L#{lib}", "-litensor", *blas_lapack_flags
     assert_match "2", shell_output("./test")
   end
 end
@@ -131,26 +142,6 @@ index 8d0872b..6d74f4e 100644
 
  mkdebugdir:
 	@mkdir -p .debug_objs
-diff --git a/itensor/tensor/lapack_wrap.cc b/itensor/tensor/lapack_wrap.cc
-index 6d97590..1eed01c 100644
---- a/itensor/tensor/lapack_wrap.cc
-+++ b/itensor/tensor/lapack_wrap.cc
-@@ -72,9 +72,15 @@ zdotc_wrapper(LAPACK_INT N,
-     {
- #ifdef ITENSOR_USE_CBLAS
-     Cplx res;
-+#if defined PLATFORM_openblas
-+    auto pX = reinterpret_cast<OPENBLAS_CONST double*>(X);
-+    auto pY = reinterpret_cast<OPENBLAS_CONST double*>(Y);
-+    auto pres = reinterpret_cast<openblas_complex_double*>(&res);
-+#else
-     auto pX = reinterpret_cast<const void*>(X);
-     auto pY = reinterpret_cast<const void*>(Y);
-     auto pres = reinterpret_cast<void*>(&res);
-+#endif
-     cblas_zdotc_sub(N,pX,incx,pY,incy,pres);
-     return res;
- #else
 diff --git a/itensor/tensor/lapack_wrap.h b/itensor/tensor/lapack_wrap.h
 index 2de9d96..898810c 100644
 --- a/itensor/tensor/lapack_wrap.h
